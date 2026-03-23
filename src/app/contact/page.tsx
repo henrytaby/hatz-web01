@@ -20,38 +20,46 @@ export default function ContactPage() {
       {/* Hero Banner al 100% de la pantalla (Efecto Estático) */}
       <div className="absolute left-0 w-full -mt-8 h-[190px] flex items-end shadow-inner overflow-hidden">
         {/* Imagen de Fondo (Efecto Ken Burns) */}
-        <motion.div 
-          animate={{ 
+        <motion.div
+          initial={{ transformOrigin: "center center" }}
+          animate={{
             scale: [1, 1.15, 1],
-            x: [0, -20, 0]
+            x: [0, -20, 0],
+            rotate: [0.01, 0.01, 0.01], // Fuerza subpixel rendering en Firefox
+            z: 0.1 // Forzar renderizado 3D constante
           }}
-          transition={{ 
-            duration: 20, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
-          style={{ willChange: "transform" }}
+          style={{
+            willChange: "transform, scale",
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            perspective: "1000px" // Mejora la profundidad de renderizado en Firefox
+          }}
           className="absolute inset-0 bg-[url('/img/banners/banner-01.jpg')] bg-cover bg-position-[50%_45%]"
         />
 
         {/* Capa de Puntos (Dot Grid) - Mucho más fluida que las líneas */}
-        <div 
+        <div
           className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
-          style={{ 
-            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)', 
-            backgroundSize: '18px 18px' 
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)',
+            backgroundSize: '3px 3px'
           }}
         />
 
         {/* Vignette Radial (Sombra suave en bordes) */}
         <div className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none" />
-        
+
         {/* Tinte oscuro suave general */}
         <div className="absolute inset-0 bg-black/5 z-0 pointer-events-none" />
 
         {/* Contenedor interno alineado con el resto de la página */}
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-8 pb-3">
-          <h1 className="text-[2.75em] font-normal text-foreground tracking-tight drop-shadow-md">Contacto</h1>
+          <h1 className="text-[2.75em] font-normal text-zinc-800 tracking-tight drop-shadow-md">Contacto</h1>
         </div>
       </div>
 
@@ -63,7 +71,7 @@ export default function ContactPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 w-full items-start">
 
           {/* Columna Izquierda: Mensaje & Contact Info */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -103,14 +111,14 @@ export default function ContactPage() {
           </motion.div>
 
           {/* Columna Derecha: Formulario Glassmorphism */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full lg:w-1/2"
           >
             <div className="w-full bg-white dark:bg-zinc-950 overflow-hidden rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 backdrop-blur-xl p-8 md:p-10 relative">
-              
+
               {/* Sutil resplandor rojo de fondo en la tarjeta */}
               <div className="absolute -top-10 -right-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
 

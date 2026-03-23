@@ -10,7 +10,7 @@
 - Scalable, custom, dependency-free local architecture (Building MDX engines from scratch using raw Node.js APIs instead of relying on decoupled external libraries like `contentlayer`).
 
 ## 🧠 Architectural Memory (The "Henry Taby Web" Project)
-The project is a professional engineering portfolio and technical blog built to replace the user's old WordPress-like limitations at `henrytaby.com`.
+The project is a professional engineering portfolio and technical blog built.
 
 ### 1. The Strict Guidelines
 - **Mandatory Tech**: Next.js (App Router), TypeScript, Tailwind CSS, Local MDX files.

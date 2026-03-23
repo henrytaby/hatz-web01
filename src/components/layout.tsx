@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
@@ -28,20 +30,44 @@ const navItems = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Cerrar el menú al cambiar de ruta o redimensionar a desktop
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setIsMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Bloquear scroll cuando el menú está abierto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 w-full h-[60px] z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm transition-colors flex items-center">
+    <>
+      <header className="sticky top-0 w-full h-[60px] z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm transition-colors flex items-center font-sans">
       <div className="mx-auto w-full max-w-[1440px] px-6 md:px-8 flex items-center justify-between">
         <Link href="/" className="hover:opacity-80 transition-opacity flex items-center -ml-2">
           <img src="/img/brand/logo.png" alt="Henry Taby Logo" className="h-[45px] w-auto dark:hidden" />
           <img src="/img/brand/logo-footer.png" alt="Henry Taby Logo Blanco" className="h-[45px] w-auto hidden dark:block" />
         </Link>
+        
         <div className="flex items-center gap-6">
+          {/* Navegación Desktop */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              // Exact match para root "/", startsWith para el resto para mantener estado activo en sub-rutas (ej /blog/post-1)
               const isActive = item.path === "/" ? pathname === "/" : pathname?.startsWith(item.path);
-              
               return (
                 <Link
                   key={item.path}
@@ -58,12 +84,90 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="flex items-center gap-4 border-l border-border pl-4">
+          <div className="flex items-center gap-2 md:gap-4 border-l border-border pl-4">
             <ThemeToggle />
+            
+            {/* Botón Menú Móvil */}
+            <button
+              className="md:hidden p-2 text-foreground hover:text-red-600 transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
         </div>
       </div>
+
     </header>
+
+    {/* Menú Móvil (Overlay) - Fuera del header para stack independiente */}
+    <AnimatePresence>
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, x: "100%" }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: "100%" }}
+          transition={{ type: "spring", damping: 30, stiffness: 300 }}
+          className="fixed inset-0 z-[9999] bg-background md:hidden flex flex-col"
+        >
+          {/* Header del Menú (para permitir cerrar) */}
+          <div className="h-[60px] flex items-center justify-between px-6 md:px-8 border-b border-border">
+            <Link href="/" className="flex items-center -ml-2">
+              <img src="/img/brand/logo.png" alt="Logo" className="h-[45px] w-auto dark:hidden" />
+              <img src="/img/brand/logo-footer.png" alt="Logo" className="h-[45px] w-auto hidden dark:block" />
+            </Link>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 text-foreground hover:text-red-500 transition-colors"
+            >
+              <X size={28} />
+            </button>
+          </div>
+
+          <nav className="flex-1 flex flex-col items-center justify-start pt-16 gap-8 p-12 overflow-y-auto">
+            {navItems.map((item, index) => {
+              const isActive = item.path === "/" ? pathname === "/" : pathname?.startsWith(item.path);
+              return (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="w-full text-center"
+                >
+                  <Link
+                    href={item.path}
+                    className={`text-4xl font-bold uppercase tracking-tighter transition-all hover:scale-105 inline-block ${
+                      isActive
+                        ? "text-red-600 dark:text-red-500"
+                        : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              );
+            })}
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex items-center gap-8 mt-8 pt-12 border-t border-border/50 w-2/3 justify-center"
+            >
+               <a href="https://github.com/henrytaby/" target="_blank" rel="noopener noreferrer" className="p-3 bg-muted border border-border rounded-full hover:bg-red-600 hover:text-white transition-all">
+                  <GithubIcon className="w-6 h-6" />
+                </a>
+                <a href="https://www.linkedin.com/in/henrytaby/" target="_blank" rel="noopener noreferrer" className="p-3 bg-muted border border-border rounded-full hover:bg-red-600 hover:text-white transition-all">
+                  <LinkedinIcon className="w-6 h-6" />
+                </a>
+            </motion.div>
+          </nav>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
 

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getAllItems } from "@/lib/mdx";
-import { ExternalLink, Github, ArrowRight, BookOpen } from "lucide-react";
+import { ExternalLink, Github, BookOpen } from "lucide-react";
+import WorkHero from "@/components/work-hero";
 
 export const metadata = {
-  title: "Work",
+  title: "Work | Henry Taby",
   description: "Portafolio y Casos de Estudio de Henry Taby.",
 };
 
@@ -11,21 +12,26 @@ export default function WorkPage() {
   const projects = getAllItems("work");
 
   return (
-    <div className="max-w-4xl flex flex-col items-start w-full relative">
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10" />
-      
-      <div className="flex flex-col gap-4 mt-8 mb-16 max-w-2xl">
-        <h1 className="text-5xl font-black tracking-tight text-foreground">
-          Work & <br /> Casos de Estudio
-        </h1>
-        <p className="text-xl text-muted-foreground leading-relaxed">
-          Una cuidadosa selección de herramientas, plataformas y bibliotecas que he diseñado y construido, mostrando la arquitectura detrás.
-        </p>
-      </div>
+    <div className="w-full flex flex-col pb-2">
+      <WorkHero />
+
+      {/* Spacer para el flujo del documento */}
+
+      <div className="w-full h-[190px] -mt-8 mb-8 md:mb-12 pointer-events-none" aria-hidden="true" />
+
+      {/* Contenido de Proyectos */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 relative">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10" />
+        
+        <div className="flex flex-col gap-4 mb-16 max-w-2xl">
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            Una cuidadosa selección de herramientas, plataformas y bibliotecas que he diseñado y construido, mostrando la arquitectura detrás.
+          </p>
+        </div>
       
       <div className="flex flex-col gap-10 w-full mb-16">
         {projects.map((project, index) => (
-          <div key={project.slug} className="group relative flex flex-col md:flex-row gap-6 md:gap-12 p-8 md:p-12 rounded-[2rem] border border-border bg-card/40 backdrop-blur-xl hover:bg-card hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-primary/5">
+          <div key={project.slug} className="group relative flex flex-col md:flex-row gap-6 md:gap-12 p-8 md:p-12 rounded-4xl border border-border bg-card/40 backdrop-blur-xl hover:bg-card hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-primary/5">
             
             <div className="flex-1 flex flex-col">
               {project.frontmatter.tags && (
@@ -70,6 +76,7 @@ export default function WorkPage() {
           </div>
         ))}
         {projects.length === 0 && <p className="text-muted-foreground">Agrega archivos MDX a la carpeta `/content/work`.</p>}
+        </div>
       </div>
     </div>
   );

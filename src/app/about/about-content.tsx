@@ -9,38 +9,45 @@ export default function AboutContent() {
       {/* Hero Banner al 100% de la pantalla (Efecto Estático) */}
       <div className="absolute left-0 w-full -mt-8 h-[190px] flex items-end shadow-inner overflow-hidden">
         {/* Imagen de Fondo (Efecto Ken Burns) */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.15, 1],
-            x: [0, -20, 0]
+        <motion.div
+          initial={{ transformOrigin: "center center" }}
+          animate={{
+            scale: [1, 1.08, 1],
+            rotate: [0.01, 0.01, 0.01], // Fuerza subpixel rendering en Firefox
+            z: 0.1 // Forzar renderizado 3D constante
           }}
-          transition={{ 
-            duration: 20, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
-          style={{ willChange: "transform" }}
+          style={{
+            willChange: "transform, scale",
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            perspective: "1000px" // Mejora la profundidad de renderizado en Firefox
+          }}
           className="absolute inset-0 bg-[url('/img/banners/banner-02.jpg')] bg-cover bg-position-[50%_45%]"
         />
 
         {/* Capa de Puntos (Dot Grid) - Mucho más fluida que las líneas */}
-        <div 
+        <div
           className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
-          style={{ 
-            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)', 
-            backgroundSize: '18px 18px' 
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)',
+            backgroundSize: '3px 3px'
           }}
         />
 
         {/* Vignette Radial (Sombra suave en bordes) */}
         <div className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none" />
-        
+
         {/* Tinte oscuro suave general */}
         <div className="absolute inset-0 bg-black/5 z-0 pointer-events-none" />
 
         {/* Contenedor interno alineado con el resto de la página */}
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-8 pb-3">
-          <h1 className="text-[2.75em] font-normal text-foreground tracking-tight drop-shadow-md">Acerca de mí</h1>
+          <h1 className="text-[2.75em] font-normal text-zinc-800 tracking-tight drop-shadow-md">Acerca de mí</h1>
         </div>
       </div>
 
@@ -136,7 +143,7 @@ export default function AboutContent() {
             {/* Tech Stack Categorizado (Filling the space) */}
             <div className="p-6 bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-lg space-y-5">
               <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Tech Stack</h4>
-              
+
               <div className="space-y-4">
                 <div>
                   <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">Backend</h5>
