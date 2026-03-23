@@ -2,61 +2,21 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { PageHero, PageHeroSpacer } from "@/components/ui/page-hero";
 
 export default function AboutContent() {
   return (
     <div className="w-full flex flex-col pb-2">
-      {/* Hero Banner al 100% de la pantalla (Efecto Estático) */}
-      <div className="absolute left-0 w-full -mt-8 h-[190px] flex items-end shadow-inner overflow-hidden">
-        {/* Imagen de Fondo (Efecto Ken Burns) */}
-        <motion.div
-          initial={{ transformOrigin: "center center" }}
-          animate={{
-            scale: [1, 1.08, 1],
-            rotate: [0.01, 0.01, 0.01], // Fuerza subpixel rendering en Firefox
-            z: 0.1 // Forzar renderizado 3D constante
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            willChange: "transform, scale",
-            backfaceVisibility: "hidden",
-            transformStyle: "preserve-3d",
-            perspective: "1000px" // Mejora la profundidad de renderizado en Firefox
-          }}
-          className="absolute inset-0 bg-[url('/img/banners/banner-02.jpg')] bg-cover bg-position-[50%_45%]"
-        />
-
-        {/* Capa de Puntos (Dot Grid) - Mucho más fluida que las líneas */}
-        <div
-          className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)',
-            backgroundSize: '3px 3px'
-          }}
-        />
-
-        {/* Vignette Radial (Sombra suave en bordes) */}
-        <div className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none" />
-
-        {/* Tinte oscuro suave general */}
-        <div className="absolute inset-0 bg-black/5 z-0 pointer-events-none" />
-
-        {/* Contenedor interno alineado con el resto de la página */}
-        <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-8 pb-3">
-          <h1 className="text-[2.75em] font-normal text-zinc-800 tracking-tight drop-shadow-md">Acerca de mí</h1>
-        </div>
-      </div>
-
-      {/* Spacer para el flujo del documento debido a que el banner es absoluto */}
-      <div className="w-full h-[190px] -mt-8 mb-8 md:mb-12 pointer-events-none" aria-hidden="true" />
+      {/* Hero Banner */}
+      <PageHero
+        title="Acerca de mí"
+        backgroundImage="/img/banners/banner-02.jpg"
+        animation="kenBurns"
+      />
+      <PageHeroSpacer />
 
       {/* Grid Principal Editorial */}
       <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start overflow-visible">
-
         {/* Columna Izquierda: Biografía Narrativa */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -112,10 +72,9 @@ export default function AboutContent() {
           </div>
         </motion.div>
 
-        {/* Columna Derecha (Sidebar): Retrato + Quick Info (Balanceando el vacío lateral) */}
+        {/* Columna Derecha (Sidebar): Retrato + Quick Info */}
         <aside className="w-full lg:w-[400px] shrink-0 space-y-8 sticky top-24 pb-12">
-
-          {/* Foto Principal (Ajustada a Square y con position relative obligatoria para 'fill') */}
+          {/* Foto Principal */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -132,7 +91,7 @@ export default function AboutContent() {
             />
           </motion.div>
 
-          {/* Bloques de Datos Rápidos (Filling the space) */}
+          {/* Bloques de Datos Rápidos */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -140,84 +99,33 @@ export default function AboutContent() {
             transition={{ delay: 0.2 }}
             className="flex flex-col gap-6"
           >
-            {/* Tech Stack Categorizado (Filling the space) */}
+            {/* Tech Stack Categorizado */}
             <div className="p-6 bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-lg space-y-5">
               <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Tech Stack</h4>
 
               <div className="space-y-4">
-                <div>
-                  <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">Backend</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {["Python (FastAPI)", "Node.js (NestJS)", "PostgreSQL/PostGIS"].map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 rounded-lg text-[11px] font-semibold border border-zinc-200/50 dark:border-zinc-800/50">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">Frontend</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {["Angular", "React", "Tailwind CSS"].map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 rounded-lg text-[11px] font-semibold border border-zinc-200/50 dark:border-zinc-800/50">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">Data & AI</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {["Machine Learning", "AI Integration", "ETL"].map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 rounded-lg text-[11px] font-semibold border border-zinc-200/50 dark:border-zinc-800/50">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">Tools</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {["Docker", "Git"].map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 rounded-lg text-[11px] font-semibold border border-zinc-200/50 dark:border-zinc-800/50">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <TechCategory label="Backend" items={["Python (FastAPI)", "Node.js (NestJS)", "PostgreSQL/PostGIS"]} />
+                <TechCategory label="Frontend" items={["Angular", "React", "Tailwind CSS"]} />
+                <TechCategory label="Data & AI" items={["Machine Learning", "AI Integration", "ETL"]} />
+                <TechCategory label="Tools" items={["Docker", "Git"]} />
               </div>
             </div>
 
-            {/* Global Expertise Brief (Layout Compacto) */}
+            {/* Global Expertise Brief */}
             <div className="p-6 bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-lg">
               <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Global Expertise</h4>
               <ul className="space-y-2">
-                <li className="text-[11px] text-muted-foreground flex items-baseline gap-2">
-                  <span className="text-zinc-400 font-bold uppercase shrink-0">Académico:</span>
-                  <span className="text-foreground font-medium italic">Maestría en IA & Data Science</span>
-                </li>
-                <li className="text-[11px] text-muted-foreground flex items-baseline gap-2">
-                  <span className="text-zinc-400 font-bold uppercase shrink-0">Internacional:</span>
-                  <span className="text-foreground font-medium">Consultor BID / OTCA / GIZ</span>
-                </li>
-                <li className="text-[11px] text-muted-foreground flex items-baseline gap-2">
-                  <span className="text-zinc-400 font-bold uppercase shrink-0">Inglés:</span>
-                  <span className="text-foreground font-medium">Técnico Avanzado</span>
-                </li>
-                <li className="text-[11px] text-muted-foreground flex items-baseline gap-2">
-                  <span className="text-zinc-400 font-bold uppercase shrink-0">Metodologías:</span>
-                  <span className="text-foreground font-medium">SCRUM / Agile / Clean Code</span>
-                </li>
+                <ExpertiseItem label="Académico" value="Maestría en IA & Data Science" />
+                <ExpertiseItem label="Internacional" value="Consultor BID / OTCA / GIZ" />
+                <ExpertiseItem label="Inglés" value="Técnico Avanzado" />
+                <ExpertiseItem label="Metodologías" value="SCRUM / Agile / Clean Code" />
               </ul>
             </div>
           </motion.div>
         </aside>
       </div>
 
-      {/* Sección Final de Ancho Completo para Filosofía (Rompe el 2-column) */}
+      {/* Sección Final de Ancho Completo para Filosofía */}
       <section className="w-full bg-zinc-50 dark:bg-zinc-900/40 py-5 mt-5 md:mt-10">
         <div className="max-w-[1440px] mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
           <motion.div
@@ -246,7 +154,7 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Coda Final con Watermark (Refinamiento Estético para llenar el espacio) */}
+      {/* Coda Final con Watermark */}
       <div className="relative w-full overflow-hidden py-16 md:py-24 text-center">
         {/* Background Watermark Text */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none">
@@ -263,5 +171,33 @@ export default function AboutContent() {
         </motion.p>
       </div>
     </div>
+  );
+}
+
+// Helper components for cleaner code
+function TechCategory({ label, items }: { label: string; items: string[] }) {
+  return (
+    <div>
+      <h5 className="text-[11px] font-bold text-zinc-400 uppercase mb-2">{label}</h5>
+      <div className="flex flex-wrap gap-2">
+        {items.map((tag) => (
+          <span
+            key={tag}
+            className="px-2 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 rounded-lg text-[11px] font-semibold border border-zinc-200/50 dark:border-zinc-800/50"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ExpertiseItem({ label, value }: { label: string; value: string }) {
+  return (
+    <li className="text-[11px] text-muted-foreground flex items-baseline gap-2">
+      <span className="text-zinc-400 font-bold uppercase shrink-0">{label}:</span>
+      <span className="text-foreground font-medium italic">{value}</span>
+    </li>
   );
 }

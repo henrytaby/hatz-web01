@@ -1,28 +1,43 @@
-import Link from "next/link";
-import { getAllItems } from "@/lib/mdx";
+// ============================================
+// Blog Page - Henry Taby Web Platform
+// ============================================
 
-import BlogHero from "@/components/blog-hero";
+import Link from "next/link";
+import { getBlogPosts, getBlogCategories, getBlogTags } from "@/lib/mdx";
+import { PageHero, PageHeroSpacer } from "@/components/ui";
 
 export default function BlogPage() {
-  const posts = getAllItems("blog");
+  const posts = getBlogPosts();
+  const categories = getBlogCategories();
+  const tags = getBlogTags();
 
   return (
     <div className="w-full flex flex-col pb-2">
-      <BlogHero />
+      <PageHero
+        title="Blog Técnico"
+        backgroundImage="/img/banners/banner-03.jpg"
+        bgPosition="40% 35%"
+      />
 
-      {/* Spacer para el flujo del documento */}
-      <div className="w-full h-[190px] -mt-8 mb-8 md:mb-12 pointer-events-none" aria-hidden="true" />
+      <PageHeroSpacer />
 
-      {/* Contenido del Blog */}
+      {/* Blog Content */}
       <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 relative">
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10" />
+        {/* Ambient glow */}
+        <div
+          className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10"
+          aria-hidden="true"
+        />
 
+        {/* Description */}
         <div className="flex flex-col gap-4 mb-16 max-w-2xl">
           <p className="text-xl text-muted-foreground leading-relaxed">
-            Pensamientos, tutoriales y apuntes sobre ingeniería de software, enfocados en ecosistemas de alto rendimiento.
+            Pensamientos, tutoriales y apuntes sobre ingeniería de software,
+            enfocados en ecosistemas de alto rendimiento.
           </p>
         </div>
-      
+
+        {/* Posts List */}
         <div className="w-full max-w-3xl flex-col flex gap-0">
           {posts.map((post) => (
             <Link
@@ -41,7 +56,7 @@ export default function BlogPage() {
                   {post.frontmatter.date}
                 </time>
               </div>
-              
+
               {post.frontmatter.summary && (
                 <p className="text-muted-foreground leading-relaxed text-lg max-w-2xl">
                   {post.frontmatter.summary}
@@ -50,8 +65,11 @@ export default function BlogPage() {
 
               {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
                 <div className="flex gap-2 flex-wrap mt-2">
-                  {post.frontmatter.tags.map(tag => (
-                    <span key={tag} className="text-xs font-bold tracking-wide uppercase px-3 py-1 rounded-md bg-muted text-muted-foreground">
+                  {post.frontmatter.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs font-bold tracking-wide uppercase px-3 py-1 rounded-md bg-muted text-muted-foreground"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -59,7 +77,10 @@ export default function BlogPage() {
               )}
             </Link>
           ))}
-          {posts.length === 0 && <p className="text-muted-foreground">Pronto habrá publicaciones...</p>}
+
+          {posts.length === 0 && (
+            <p className="text-muted-foreground">Pronto habrá publicaciones...</p>
+          )}
         </div>
       </div>
     </div>

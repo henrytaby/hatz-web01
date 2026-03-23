@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Mail, Send, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { PageHero, PageHeroSpacer } from "@/components/ui/page-hero";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -17,59 +18,17 @@ export default function ContactPage() {
 
   return (
     <div className="w-full flex flex-col pb-2">
-      {/* Hero Banner al 100% de la pantalla (Efecto Estático) */}
-      <div className="absolute left-0 w-full -mt-8 h-[190px] flex items-end shadow-inner overflow-hidden">
-        {/* Imagen de Fondo (Efecto Ken Burns) */}
-        <motion.div
-          initial={{ transformOrigin: "center center" }}
-          animate={{
-            scale: [1, 1.15, 1],
-            x: [0, -20, 0],
-            rotate: [0.01, 0.01, 0.01], // Fuerza subpixel rendering en Firefox
-            z: 0.1 // Forzar renderizado 3D constante
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            willChange: "transform, scale",
-            backfaceVisibility: "hidden",
-            transformStyle: "preserve-3d",
-            perspective: "1000px" // Mejora la profundidad de renderizado en Firefox
-          }}
-          className="absolute inset-0 bg-[url('/img/banners/banner-01.jpg')] bg-cover bg-position-[50%_45%]"
-        />
-
-        {/* Capa de Puntos (Dot Grid) - Mucho más fluida que las líneas */}
-        <div
-          className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)',
-            backgroundSize: '3px 3px'
-          }}
-        />
-
-        {/* Vignette Radial (Sombra suave en bordes) */}
-        <div className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none" />
-
-        {/* Tinte oscuro suave general */}
-        <div className="absolute inset-0 bg-black/5 z-0 pointer-events-none" />
-
-        {/* Contenedor interno alineado con el resto de la página */}
-        <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-8 pb-3">
-          <h1 className="text-[2.75em] font-normal text-zinc-800 tracking-tight drop-shadow-md">Contacto</h1>
-        </div>
-      </div>
-
-      {/* Spacer para el flujo del documento debido a que el banner es absoluto */}
-      <div className="w-full h-[190px] -mt-8 mb-12 pointer-events-none" aria-hidden="true" />
+      {/* Hero Banner */}
+      <PageHero
+        title="Contacto"
+        backgroundImage="/img/banners/banner-01.jpg"
+        animation="kenBurnsPan"
+      />
+      <PageHeroSpacer />
 
       {/* Contenido principal animado y balanceado */}
       <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 mt-2 mb-20">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 w-full items-start">
-
           {/* Columna Izquierda: Mensaje & Contact Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -87,26 +46,14 @@ export default function ContactPage() {
             </div>
 
             <div className="flex flex-col gap-8 bg-zinc-100 dark:bg-zinc-900/30 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Email Directo</h3>
-                <a
-                  href="mailto:hola@henrytaby.com"
-                  className="inline-flex items-center gap-3 text-base font-medium text-foreground hover:text-red-600 transition-colors"
-                >
-                  <Mail className="w-6 h-6 text-red-600" /> hola@henrytaby.com
-                </a>
-              </div>
+              <ContactInfo
+                label="Email Directo"
+                href="mailto:hola@henrytaby.com"
+                value="hola@henrytaby.com"
+                icon={<Mail className="w-6 h-6 text-red-600" />}
+              />
 
-              <div className="flex flex-col gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Disponibilidad</h3>
-                <p className="text-base font-medium text-foreground flex items-center gap-3">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                  </span>
-                  Abierto a propuestas
-                </p>
-              </div>
+              <AvailabilityStatus />
             </div>
           </motion.div>
 
@@ -117,69 +64,159 @@ export default function ContactPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full lg:w-1/2"
           >
-            <div className="w-full bg-white dark:bg-zinc-950 overflow-hidden rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 backdrop-blur-xl p-8 md:p-10 relative">
-
-              {/* Sutil resplandor rojo de fondo en la tarjeta */}
-              <div className="absolute -top-10 -right-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-sm font-bold uppercase tracking-wider text-zinc-500">Nombre Completo</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    placeholder="P. ej., Elon Musk"
-                    className="flex h-14 w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50 px-4 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 transition-all disabled:opacity-50"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-sm font-bold uppercase tracking-wider text-zinc-500">Email Oficial</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    placeholder="elon@spacex.com"
-                    className="flex h-14 w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50 px-4 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 transition-all disabled:opacity-50"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="message" className="text-sm font-bold uppercase tracking-wider text-zinc-500">Tu Idea o Mensaje</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    placeholder="Cuéntame sobre el proyecto increíble que tienes en mente..."
-                    className="flex min-h-[140px] w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50 px-4 py-4 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 transition-all disabled:opacity-50 resize-y"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={submitted}
-                  className="mt-2 inline-flex items-center justify-center gap-3 rounded-xl text-base font-bold h-14 px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-red-600 dark:hover:bg-red-600 hover:text-white dark:hover:text-white transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed group shadow-lg"
-                >
-                  {submitted ? (
-                    <>
-                      Mensaje Enviado <CheckCircle2 className="w-5 h-5 text-green-500" />
-                    </>
-                  ) : (
-                    <>
-                      Enviar Mensaje Ahora <Send className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </>
-                  )}
-                </button>
-              </form>
-            </div>
+            <ContactForm submitted={submitted} onSubmit={handleSubmit} />
           </motion.div>
-
         </div>
       </div>
     </div>
+  );
+}
+
+// Helper components for cleaner code
+function ContactInfo({
+  label,
+  href,
+  value,
+  icon,
+}: {
+  label: string;
+  href: string;
+  value: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">{label}</h3>
+      <a
+        href={href}
+        className="inline-flex items-center gap-3 text-base font-medium text-foreground hover:text-red-600 transition-colors"
+      >
+        {icon} {value}
+      </a>
+    </div>
+  );
+}
+
+function AvailabilityStatus() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Disponibilidad</h3>
+      <p className="text-base font-medium text-foreground flex items-center gap-3">
+        <span className="relative flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </span>
+        Abierto a propuestas
+      </p>
+    </div>
+  );
+}
+
+function ContactForm({
+  submitted,
+  onSubmit,
+}: {
+  submitted: boolean;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}) {
+  return (
+    <div className="w-full bg-white dark:bg-zinc-950 overflow-hidden rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 backdrop-blur-xl p-8 md:p-10 relative">
+      {/* Sutil resplandor rojo de fondo en la tarjeta */}
+      <div className="absolute -top-10 -right-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+
+      <form onSubmit={onSubmit} className="flex flex-col gap-6 relative z-10">
+        <FormField
+          id="name"
+          label="Nombre Completo"
+          placeholder="P. ej., Elon Musk"
+          required
+        />
+
+        <FormField
+          id="email"
+          label="Email Oficial"
+          type="email"
+          placeholder="elon@spacex.com"
+          required
+        />
+
+        <FormField
+          id="message"
+          label="Tu Idea o Mensaje"
+          placeholder="Cuéntame sobre el proyecto increíble que tienes en mente..."
+          required
+          multiline
+        />
+
+        <SubmitButton submitted={submitted} />
+      </form>
+    </div>
+  );
+}
+
+function FormField({
+  id,
+  label,
+  type = "text",
+  placeholder,
+  required,
+  multiline,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  placeholder: string;
+  required?: boolean;
+  multiline?: boolean;
+}) {
+  const inputClasses =
+    "flex w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50 px-4 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 transition-all disabled:opacity-50";
+
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-sm font-bold uppercase tracking-wider text-zinc-500">
+        {label}
+      </label>
+      {multiline ? (
+        <textarea
+          id={id}
+          name={id}
+          required={required}
+          rows={5}
+          placeholder={placeholder}
+          className={`${inputClasses} min-h-[140px] resize-y`}
+        />
+      ) : (
+        <input
+          type={type}
+          id={id}
+          name={id}
+          required={required}
+          placeholder={placeholder}
+          className={`${inputClasses} h-14`}
+        />
+      )}
+    </div>
+  );
+}
+
+function SubmitButton({ submitted }: { submitted: boolean }) {
+  return (
+    <button
+      type="submit"
+      disabled={submitted}
+      className="mt-2 inline-flex items-center justify-center gap-3 rounded-xl text-base font-bold h-14 px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-red-600 dark:hover:bg-red-600 hover:text-white dark:hover:text-white transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed group shadow-lg"
+    >
+      {submitted ? (
+        <>
+          Mensaje Enviado <CheckCircle2 className="w-5 h-5 text-green-500" />
+        </>
+      ) : (
+        <>
+          Enviar Mensaje Ahora{" "}
+          <Send className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+        </>
+      )}
+    </button>
   );
 }

@@ -1,3 +1,7 @@
+// ============================================
+// Root Layout - Henry Taby Web Platform
+// ============================================
+
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -17,7 +21,38 @@ export const metadata: Metadata = {
     template: "%s | Henry Taby",
   },
   description: "Portafolio de Henry Taby, Software Developer & Fotógrafo.",
-  // ... omite metadata exhaustiva para ahorrar lineas ...
+  keywords: [
+    "Henry Taby",
+    "Software Developer",
+    "Fotógrafo",
+    "Full Stack",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Python",
+    "Bolivia",
+  ],
+  authors: [{ name: "Henry Taby" }],
+  creator: "Henry Taby",
+  metadataBase: new URL("https://henrytaby.com"),
+  openGraph: {
+    type: "website",
+    locale: "es_BO",
+    url: "https://henrytaby.com",
+    siteName: "Henry Taby",
+    title: "Henry Taby | Software Developer - Fotógrafo",
+    description: "Portafolio de Henry Taby, Software Developer & Fotógrafo.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Henry Taby | Software Developer - Fotógrafo",
+    description: "Portafolio de Henry Taby, Software Developer & Fotógrafo.",
+    creator: "@henrytaby",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -28,10 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={cn(
-        "bg-background text-foreground antialiased",
-        poppins.variable
-      )}
+      className={cn("bg-background text-foreground antialiased", poppins.variable)}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col font-sans selection:bg-red-600 selection:text-white">
