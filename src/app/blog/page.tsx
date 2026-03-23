@@ -1,15 +1,11 @@
-// ============================================
-// Blog Page - Henry Taby Web Platform
-// ============================================
-
 import Link from "next/link";
-import { getBlogPosts, getBlogCategories, getBlogTags } from "@/lib/mdx";
+import { ArrowRight } from "lucide-react";
+import { getBlogPosts } from "@/features/blog";
+import { BlogList } from "@/features/blog";
 import { PageHero, PageHeroSpacer } from "@/components/ui";
 
 export default function BlogPage() {
   const posts = getBlogPosts();
-  const categories = getBlogCategories();
-  const tags = getBlogTags();
 
   return (
     <div className="w-full flex flex-col pb-2">
@@ -38,49 +34,17 @@ export default function BlogPage() {
         </div>
 
         {/* Posts List */}
-        <div className="w-full max-w-3xl flex-col flex gap-0">
-          {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="group flex flex-col gap-4 py-10 border-t border-border/50 hover:bg-muted/30 transition-colors -mx-6 px-6 rounded-2xl"
-            >
-              <div className="w-full flex flex-col md:flex-row justify-between md:items-baseline gap-2">
-                <h2 className="text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                  {post.frontmatter.title}
-                </h2>
-                <time
-                  dateTime={post.frontmatter.date}
-                  className="text-sm font-mono whitespace-nowrap text-muted-foreground shrink-0"
-                >
-                  {post.frontmatter.date}
-                </time>
-              </div>
+        <BlogList posts={posts} />
 
-              {post.frontmatter.summary && (
-                <p className="text-muted-foreground leading-relaxed text-lg max-w-2xl">
-                  {post.frontmatter.summary}
-                </p>
-              )}
-
-              {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                <div className="flex gap-2 flex-wrap mt-2">
-                  {post.frontmatter.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-bold tracking-wide uppercase px-3 py-1 rounded-md bg-muted text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </Link>
-          ))}
-
-          {posts.length === 0 && (
-            <p className="text-muted-foreground">Pronto habrá publicaciones...</p>
-          )}
+        {/* View All Link */}
+        <div className="w-full flex justify-center md:justify-end mt-8">
+          <Link
+            href="/blog"
+            className="text-sm font-bold text-muted-foreground hover:text-foreground inline-flex items-center gap-2 transition-colors group"
+          >
+            Leer todos los artículos{" "}
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </div>

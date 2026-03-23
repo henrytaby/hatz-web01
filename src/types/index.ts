@@ -1,7 +1,3 @@
-// ============================================
-// Domain Types - Henry Taby Web Platform
-// ============================================
-
 // Base frontmatter for all content types
 export interface BaseFrontmatter {
   title: string;

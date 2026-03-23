@@ -1,7 +1,3 @@
-// ============================================
-// MDX Components - Henry Taby Web Platform
-// ============================================
-
 import { compileMDX, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";

@@ -1,7 +1,3 @@
-// ============================================
-// Theme Toggle Component - Henry Taby Web Platform
-// ============================================
-
 "use client";
 
 import * as React from "react";

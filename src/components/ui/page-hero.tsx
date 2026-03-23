@@ -1,7 +1,3 @@
-// ============================================
-// Page Hero Component - Henry Taby Web Platform
-// ============================================
-
 "use client";
 
 import { motion } from "framer-motion";

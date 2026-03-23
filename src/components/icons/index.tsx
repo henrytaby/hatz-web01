@@ -1,7 +1,3 @@
-// ============================================
-// Social Icons - Henry Taby Web Platform
-// ============================================
-
 import type { SVGProps } from "react";
 
 // Base props for all icons

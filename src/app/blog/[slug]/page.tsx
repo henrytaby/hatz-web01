@@ -1,20 +1,15 @@
-// ============================================
-// Blog Post Page - Henry Taby Web Platform
-// ============================================
-
 import { notFound } from "next/navigation";
-import { getBlogPostBySlug, getSlugs, getRelatedBlogPosts } from "@/lib/mdx";
-import { CustomMDX } from "@/components/mdx";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { getBlogPostBySlug, getBlogSlugs, getRelatedBlogPosts } from "@/features/blog";
+import { CustomMDX } from "@/components/mdx";
+import { Badge } from "@/shared/ui";
 
-// Generate Static Params at build time (SSG)
 export async function generateStaticParams() {
-  const slugs = getSlugs("blog");
+  const slugs = getBlogSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
-// Generate dynamic metadata per post
 export async function generateMetadata({
   params,
 }: {
@@ -28,8 +23,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: post.frontmatter.title,
-    description: post.frontmatter.summary || "Publicación del blog",
+    title: post.title,
+    description: post.summary || "Publicación del blog",
   };
 }
 
@@ -60,31 +55,28 @@ export default async function BlogPost({
       {/* Post Header */}
       <header className="mb-8">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-          {post.frontmatter.title}
+          {post.title}
         </h1>
         <div className="flex items-center gap-4 text-muted-foreground text-sm">
-          <time dateTime={post.frontmatter.date}>
-            {new Date(post.frontmatter.date).toLocaleDateString("es-ES", {
+          <time dateTime={post.date}>
+            {new Date(post.date).toLocaleDateString("es-ES", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </time>
-          {post.frontmatter.readingTime && (
-            <span>· {post.frontmatter.readingTime} min de lectura</span>
+          {post.readingTime && (
+            <span>· {post.readingTime} min de lectura</span>
           )}
         </div>
 
         {/* Tags */}
-        {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+        {post.tags && post.tags.length > 0 && (
           <div className="flex gap-2 flex-wrap mt-4">
-            {post.frontmatter.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs font-bold tracking-wide uppercase px-3 py-1 rounded-md bg-muted text-muted-foreground"
-              >
+            {post.tags.map((tag) => (
+              <Badge key={tag} variant="default">
                 {tag}
-              </span>
+              </Badge>
             ))}
           </div>
         )}
@@ -105,11 +97,11 @@ export default async function BlogPost({
                 className="group p-4 rounded-lg border border-border hover:bg-muted transition-colors"
               >
                 <h3 className="font-semibold group-hover:text-primary transition-colors">
-                  {relatedPost.frontmatter.title}
+                  {relatedPost.title}
                 </h3>
-                {relatedPost.frontmatter.summary && (
+                {relatedPost.summary && (
                   <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                    {relatedPost.frontmatter.summary}
+                    {relatedPost.summary}
                   </p>
                 )}
               </Link>

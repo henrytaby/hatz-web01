@@ -1,10 +1,7 @@
-// ============================================
-// Home Page - Henry Taby Web Platform
-// ============================================
-
 import Link from "next/link";
-import { getBlogPosts, getWorkProjects } from "@/lib/mdx";
 import { ArrowRight, Code2, Terminal, Cpu } from "lucide-react";
+import { getBlogPosts } from "@/features/blog";
+import { getWorkProjects } from "@/features/work";
 
 export default function Home() {
   const recentPosts = getBlogPosts().slice(0, 3);
@@ -86,18 +83,18 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-4 relative z-10">
-                {project.frontmatter.tags && (
+                {project.tags && (
                   <div className="flex gap-2">
                     <span className="text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full bg-primary/10 text-primary">
-                      {project.frontmatter.tags[0] || "Architecture"}
+                      {project.tags[0] || "Architecture"}
                     </span>
                   </div>
                 )}
                 <h3 className="text-2xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors">
-                  {project.frontmatter.title}
+                  {project.title}
                 </h3>
                 <p className="text-muted-foreground text-base leading-relaxed line-clamp-2">
-                  {project.frontmatter.summary}
+                  {project.summary}
                 </p>
               </div>
 
@@ -147,19 +144,19 @@ export default function Home() {
             >
               <div className="flex flex-col gap-1">
                 <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                  {post.frontmatter.title}
+                  {post.title}
                 </h3>
-                {post.frontmatter.summary && (
+                {post.summary && (
                   <p className="text-muted-foreground text-sm line-clamp-1 max-w-xl">
-                    {post.frontmatter.summary}
+                    {post.summary}
                   </p>
                 )}
               </div>
               <time
-                dateTime={post.frontmatter.date}
+                dateTime={post.date}
                 className="text-sm font-mono text-muted-foreground shrink-0 whitespace-nowrap"
               >
-                {post.frontmatter.date}
+                {post.date}
               </time>
             </Link>
           ))}

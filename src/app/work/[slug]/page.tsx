@@ -1,15 +1,12 @@
-// ============================================
-// Work Project Page - Henry Taby Web Platform
-// ============================================
-
 import { notFound } from "next/navigation";
-import { getWorkProjectBySlug, getSlugs, getRelatedWorkProjects } from "@/lib/mdx";
-import { CustomMDX } from "@/components/mdx";
-import { ExternalLink, Github, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { ExternalLink, Github, ArrowLeft } from "lucide-react";
+import { getWorkProjectBySlug, getWorkSlugs, getRelatedWorkProjects } from "@/features/work";
+import { CustomMDX } from "@/components/mdx";
+import { Badge } from "@/shared/ui";
 
 export async function generateStaticParams() {
-  const slugs = getSlugs("work");
+  const slugs = getWorkSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -24,8 +21,8 @@ export async function generateMetadata({
   if (!project) return { title: "No encontrado" };
 
   return {
-    title: `${project.frontmatter.title} | Work`,
-    description: project.frontmatter.summary,
+    title: `${project.title} | Work`,
+    description: project.summary,
   };
 }
 
@@ -54,17 +51,17 @@ export default async function WorkProject({
       {/* Project Header */}
       <header className="mb-12">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-foreground">
-          {project.frontmatter.title}
+          {project.title}
         </h1>
         <p className="text-xl text-muted-foreground mb-6">
-          {project.frontmatter.summary}
+          {project.summary}
         </p>
 
         {/* Action Links */}
         <div className="flex gap-4 items-center mb-8">
-          {project.frontmatter.githubUrl && (
+          {project.githubUrl && (
             <a
-              href={project.frontmatter.githubUrl}
+              href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 py-2 border border-border bg-background text-foreground hover:bg-muted transition-colors gap-2"
@@ -72,9 +69,9 @@ export default async function WorkProject({
               <Github className="w-4 h-4" /> Repositorio
             </a>
           )}
-          {project.frontmatter.liveUrl && (
+          {project.liveUrl && (
             <a
-              href={project.frontmatter.liveUrl}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors gap-2"
@@ -89,30 +86,27 @@ export default async function WorkProject({
           <div className="flex flex-col gap-1">
             <span className="font-semibold text-foreground">Tecnologías Base</span>
             <div className="flex flex-wrap gap-2 mt-2">
-              {project.frontmatter.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="font-mono text-xs px-2 py-0.5 rounded-md bg-muted text-muted-foreground"
-                >
+              {project.tags?.map((tag) => (
+                <Badge key={tag} variant="default">
                   {tag}
-                </span>
+                </Badge>
               ))}
             </div>
           </div>
           <div className="flex flex-col gap-1">
             <span className="font-semibold text-foreground">Fecha</span>
             <time
-              dateTime={project.frontmatter.date}
+              dateTime={project.date}
               className="text-muted-foreground mt-2 inline-block"
             >
-              {project.frontmatter.date}
+              {project.date}
             </time>
           </div>
-          {project.frontmatter.client && (
+          {project.client && (
             <div className="flex flex-col gap-1">
               <span className="font-semibold text-foreground">Cliente</span>
               <span className="text-muted-foreground mt-2">
-                {project.frontmatter.client}
+                {project.client}
               </span>
             </div>
           )}
@@ -134,11 +128,11 @@ export default async function WorkProject({
                 className="group p-4 rounded-lg border border-border hover:bg-muted transition-colors"
               >
                 <h3 className="font-semibold group-hover:text-primary transition-colors">
-                  {relatedProject.frontmatter.title}
+                  {relatedProject.title}
                 </h3>
-                {relatedProject.frontmatter.summary && (
+                {relatedProject.summary && (
                   <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                    {relatedProject.frontmatter.summary}
+                    {relatedProject.summary}
                   </p>
                 )}
               </Link>

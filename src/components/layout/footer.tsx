@@ -1,7 +1,3 @@
-// ============================================
-// Footer Component - Henry Taby Web Platform
-// ============================================
-
 import { GithubIcon, LinkedinIcon, TwitterIcon, YouTubeIcon } from "@/components/icons";
 
 const footerTags = ["ARTICULOS", "CHAT", "GALLERY", "PICTURES", "SOFTWARE", "REACT"] as const;
