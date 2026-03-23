@@ -5,10 +5,9 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const { resolvedTheme, setTheme } = useTheme();
     const [mounted, setMounted] = React.useState(false);
 
-    // Only render after mounting to avoid hydration mismatch
     React.useEffect(() => {
         setMounted(true);
     }, []);
@@ -17,7 +16,6 @@ export function ThemeToggle() {
         setTheme(resolvedTheme === "light" ? "dark" : "light");
     };
 
-    // Use resolvedTheme for more accurate theme detection
     const currentTheme = mounted ? resolvedTheme : "light";
 
     return (
@@ -33,7 +31,6 @@ export function ThemeToggle() {
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 </>
             ) : (
-                // Placeholder to prevent layout shift
                 <div className="h-[1.2rem] w-[1.2rem]" />
             )}
         </button>

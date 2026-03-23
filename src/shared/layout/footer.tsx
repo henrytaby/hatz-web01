@@ -1,4 +1,4 @@
-import { GithubIcon, LinkedinIcon, TwitterIcon, YouTubeIcon } from "@/components/icons";
+import { GithubIcon, LinkedinIcon, TwitterIcon, YouTubeIcon } from "@/shared/icons";
 
 const footerTags = ["ARTICULOS", "CHAT", "GALLERY", "PICTURES", "SOFTWARE", "REACT"] as const;
 
@@ -61,7 +61,6 @@ export function Footer() {
     );
 }
 
-// Social Link Component
 interface SocialLinkProps {
     href: string;
     icon: React.ReactNode;

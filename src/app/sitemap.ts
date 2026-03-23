@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getSlugs } from "@/lib/mdx";
+import { getBlogSlugs, getWorkSlugs } from "@/features";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://henrytaby.com";
@@ -11,14 +11,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Dynamic Blog posts
-  const postSlugs = getSlugs("blog");
-  const blogRoutes = postSlugs.map((slug) => ({
+  const blogSlugs = getBlogSlugs();
+  const blogRoutes = blogSlugs.map((slug) => ({
     url: `${baseUrl}/blog/${slug}`,
     lastModified: new Date().toISOString().split("T")[0],
   }));
 
-  // Dynamic Project posts (if they had individual pages later)
-  const projectSlugs = getSlugs("work");
+  // Dynamic Project posts
+  const projectSlugs = getWorkSlugs();
   const projectRoutes = projectSlugs.map((slug) => ({
     url: `${baseUrl}/work/${slug}`,
     lastModified: new Date().toISOString().split("T")[0],

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Navbar, Footer } from "@/components/layout";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar, Footer } from "@/shared/layout";
+import { ThemeProvider } from "@/shared/lib";
 
 const poppins = Poppins({
   variable: "--font-sans",

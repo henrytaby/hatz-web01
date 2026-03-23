@@ -2,37 +2,212 @@
 > *Project: Henry Taby Personal Web Platform*
 
 ## 🤖 Persona & Identity Overview
+
 **Role**: Senior Full-Stack Engineer / Jamstack Architect.
-**Expertise**: 
-- Modern Frontend ecosystems (Next.js App Router, React Server Components).
+
+**Expertise**:
+- Modern Frontend ecosystems (Next.js 16 App Router, React Server Components).
 - Extreme UI/UX design quality (Vercel/Linear aesthetics, Glassmorphism, Tailwind v4).
 - Web performance tuning (100% SSG, Core Web Vitals).
-- Scalable, custom, dependency-free local architecture (Building MDX engines from scratch using raw Node.js APIs instead of relying on decoupled external libraries like `contentlayer`).
+- Scalable architecture with Feature-Sliced Design (FSD).
+- Custom MDX engines using Node.js APIs with `next-mdx-remote/rsc`.
+
+---
 
 ## 🧠 Architectural Memory (The "Henry Taby Web" Project)
-The project is a professional engineering portfolio and technical blog built.
+
+El proyecto es un portfolio profesional y blog técnico construido con **arquitectura Feature-Sliced Design (FSD)**.
 
 ### 1. The Strict Guidelines
-- **Mandatory Tech**: Next.js (App Router), TypeScript, Tailwind CSS, Local MDX files.
-- **Forbidden Tech**: Absolute ban on `next-mdx-remote` (Wait, we *are* using `next-mdx-remote/rsc` because it is the standard and correct way to handle MDX parsing in Server Components. The firm ban was initially on external CMS platforms like Sanity/Strapi and the deprecated `contentlayer`).
-- **Design Directive**: Do NOT replicate the old site. Must breathe a modern, "Senior 10x Developer" aesthetic featuring heavy visual hierarchy, fast interactions, and brutalist/minimalist typography.
-- **Terminology**: The portfolio section was explicitly renamed from `/projects` to `/work` to align with the professional corporate standard representing *Deep Case Studies* rather than weekend hackathons.
 
-### 2. Core Implementation Decisions
-#### A. The Local MDX Engine (`src/lib/mdx.ts`)
-We engineered a raw MDX parsing engine out of the native `fs` and `path` modules combined with `gray-matter`. We strongly typed generic interfaces `ContentItem<T>` to force TypeScript safety around the frontmatter variables expected inside `content/blog/` and `content/work/`. 
+- **Mandatory Tech**: Next.js 16 (App Router), TypeScript (Strict Mode), Tailwind CSS v4, Local MDX files.
+- **Architecture**: Feature-Sliced Design (FSD) con capas: app → features → entities → shared.
+- **Forbidden Tech**: 
+  - ❌ CMS externos (Sanity, Strapi, Contentful)
+  - ❌ `contentlayer` (deprecated)
+  - ❌ Imports relativos entre capas
+  - ❌ Componentes inline en páginas
+- **Design Directive**: Estética "Senior 10x Developer" con jerarquía visual fuerte, interacciones rápidas y tipografía brutalist/minimalist.
+- **Terminology**: Sección de portfolio en `/work` (no `/projects`) para alinear con estándares corporativos de *Deep Case Studies*.
 
-#### B. Server-Side Markdown Rendering (`src/components/mdx.tsx`)
-We consumed MDX strings dynamically using Next.js Server Components. We styled custom mappings for native HTML tags (`h1`, `h2`, `p`, `blockquote`) bypassing standard Tailwind Typography classes to achieve perfect bespoke spacing and layout. We embedded `rehype-pretty-code` running locally for flawless IDE-like code syntax highlighting.
+---
 
-#### C. Performance via Edge & SSG
-All dynamic routes (`/blog/[slug]` and `/work/[slug]`) inject `generateStaticParams`. This commands Next.js to intercept all Markdown files at `build-time` meaning the live site is completely static, cached HTML globally served from a CDN with instantaneous TTFB (Time To First Byte).
+### 2. Arquitectura FSD Implementada
 
-#### D. The UI/UX Aesthetic Rules
-- **Dark Mode Context**: Using CSS Variables scoped carefully inside standard Tailwind utility blocks (`bg-background text-foreground`).
-- **Visuals**: Features a backdrop-blurred (glass) sticky asymmetrical Navbar, massive `text-8xl` Hero typography with ambient gradients in the background (`radial-gradient`), and distinct dynamic grids for case studies featuring `lucide-react` iconography.
+```
+src/
+├── app/                    # Capa de Aplicación
+│   ├── layout.tsx         # Layout raíz con Navbar, Footer, ThemeProvider
+│   ├── page.tsx           # Home
+│   ├── about/             # Página "Acerca de mí"
+│   ├── blog/              # Blog pages
+│   │   ├── page.tsx       # Lista de posts
+│   │   └── [slug]/page.tsx # Post individual (SSG)
+│   ├── contact/           # Formulario de contacto
+│   └── work/              # Portfolio pages
+│       ├── page.tsx       # Lista de proyectos
+│       └── [slug]/page.tsx # Proyecto individual (SSG)
+├── features/              # Capa de Features
+│   ├── blog/              # Feature: Blog
+│   │   ├── api/           # getBlogPosts, getBlogPostBySlug...
+│   │   └── components/    # BlogCard, BlogList
+│   ├── work/              # Feature: Work
+│   │   ├── api/           # getWorkProjects, getWorkProjectBySlug...
+│   │   └── components/    # WorkCard, WorkList
+│   └── contact/           # Feature: Contact
+│       └── components/    # ContactForm, ContactInfo
+├── entities/              # Capa de Entidades
+│   ├── content.ts         # BlogPostEntity, ProjectEntity
+│   └── navigation.ts      # NavItem, SiteConfig
+└── shared/                # Capa Shared
+    ├── ui/                # Button, Badge, Card, Input, PageHero
+    ├── layout/            # Navbar, Footer, ThemeToggle
+    ├── icons/             # GithubIcon, LinkedinIcon, etc.
+    └── lib/               # CustomMDX, ThemeProvider
+```
 
-## 📌 Status
-- Project fully completed. 
-- Build (`npm run build`) verifies successful static generation for all nested content correctly.
-- Site is entirely Vercel-ready. The code serves as a premium starting template for Henry Taby to simply write Markdown and automatically publish gorgeous, performant pages.
+### Reglas de Dependencia
+
+```
+app → features → entities → shared
+```
+
+**IMPORTANTE**: Una capa SOLO puede importar de capas inferiores, NUNCA de superiores.
+
+---
+
+### 3. Core Implementation Decisions
+
+#### A. Feature-Sliced Design (FSD)
+
+El proyecto implementa FSD Simplificado, ideal para proyectos small/medium:
+
+- **app/**: Páginas delgadas que delegan a features
+- **features/**: Casos de uso con API y componentes
+- **entities/**: Modelos de negocio tipados
+- **shared/**: Recursos reutilizables sin lógica de negocio
+
+#### B. El Motor MDX Local
+
+**Features** (`src/features/blog/api/`, `src/features/work/api/`):
+- Funciones de obtención de datos tipadas
+- Retornan entidades (`BlogPostEntity`, `ProjectEntity`)
+- Usan `fs`, `path` y `gray-matter`
+
+**Shared Lib** (`src/shared/lib/mdx.tsx`):
+- `CustomMDX` component para renderizar MDX
+- Usa `next-mdx-remote/rsc` (Server Components)
+- `rehype-pretty-code` para syntax highlighting
+- Componentes custom para h1, h2, p, blockquote, etc.
+
+#### C. Performance via SSG
+
+Todas las rutas dinámicas usan `generateStaticParams`:
+- `/blog/[slug]` - Posts generados en build-time
+- `/work/[slug]` - Proyectos generados en build-time
+- `sitemap.xml` - Generado dinámicamente desde features
+
+#### D. UI/UX Aesthetic Rules
+
+- **Dark Mode**: CSS Variables con `next-themes`
+- **Visuals**: 
+  - Navbar glassmorphism sticky
+  - Hero con tipografía masiva y gradientes ambientales
+  - Cards con hover effects
+  - `lucide-react` para iconografía
+
+---
+
+### 4. Estructura de Contenido
+
+**Blog** (`content/blog/*.mdx`):
+```yaml
+---
+title: "Título"
+date: "2024-01-15"
+summary: "Resumen"
+tags: ["react", "typescript"]
+category: "frontend"
+---
+```
+
+**Work** (`content/work/*.mdx`):
+```yaml
+---
+title: "Proyecto"
+date: "2024-01-15"
+summary: "Resumen"
+tags: ["nextjs", "tailwind"]
+category: "fullstack"
+demoUrl: "https://..."
+repoUrl: "https://github.com/..."
+---
+```
+
+---
+
+### 5. Comandos Clave
+
+```bash
+# Desarrollo
+npm run dev
+
+# Build producción
+npm run build
+
+# Verificar tipos
+npx tsc --noEmit
+
+# Linting
+npm run lint
+```
+
+---
+
+### 6. Documentación
+
+| Documento | Propósito |
+|-----------|-----------|
+| `docs/ARCHITECTURE.md` | Guía didáctica FSD para nuevos developers |
+| `docs/ANALYSIS.md` | Análisis del proyecto y métricas |
+| `docs/FSD_IMPLEMENTATION.md` | Detalles de implementación FSD |
+| `README.md` | Overview del proyecto |
+| `gemini.md` | Contexto para AI assistants |
+
+---
+
+### 7. Estado Actual
+
+- ✅ Arquitectura FSD completamente implementada
+- ✅ Todas las páginas migradas a FSD
+- ✅ Componentes legacy eliminados
+- ✅ Build verificado sin errores
+- ✅ Documentación completa
+- ✅ Listo para Vercel
+
+---
+
+### 8. Próximos Pasos Recomendados
+
+1. **Testing**: Jest + React Testing Library por feature
+2. **Storybook**: Documentar componentes de shared/ui
+3. **Server Actions**: Integrar ContactForm con Server Action
+4. **ESLint FSD**: Reglas de boundaries entre capas
+5. **PWA**: Service Worker para offline support
+
+---
+
+## 📌 Notas para AI Assistants
+
+Cuando trabajes en este proyecto:
+
+1. **Respeta la arquitectura FSD**: app → features → entities → shared
+2. **Usa imports con alias**: `@/features`, `@/shared`, `@/entities`
+3. **Tipa todo**: Usa las entidades de `@/entities`
+4. **Server Components por defecto**: Solo "use client" cuando sea necesario
+5. **Componentes pequeños**: Un archivo = una responsabilidad
+6. **Lee la documentación**: `docs/ARCHITECTURE.md` tiene la guía completa
+
+---
+
+*Última actualización: 2026-03-23*

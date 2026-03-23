@@ -9,3 +9,5 @@ export type { CardProps } from "./card";
 
 export { Input, Textarea } from "./input";
 export type { InputProps, TextareaProps } from "./input";
+
+export { PageHero, PageHeroSpacer } from "./page-hero";

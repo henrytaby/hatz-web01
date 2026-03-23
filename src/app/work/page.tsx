@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getWorkProjects } from "@/features/work";
 import { WorkList } from "@/features/work";
-import { PageHero, PageHeroSpacer } from "@/components/ui";
+import { PageHero, PageHeroSpacer } from "@/shared/ui";
 
 export const metadata = {
   title: "Work | Henry Taby",

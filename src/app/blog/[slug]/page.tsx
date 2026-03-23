@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { getBlogPostBySlug, getBlogSlugs, getRelatedBlogPosts } from "@/features/blog";
-import { CustomMDX } from "@/components/mdx";
+import { CustomMDX } from "@/shared/lib";
 import { Badge } from "@/shared/ui";
 
 export async function generateStaticParams() {

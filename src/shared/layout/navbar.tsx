@@ -7,18 +7,16 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { navigationItems } from "@/config";
 import { ThemeToggle } from "./theme-toggle";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { GithubIcon, LinkedinIcon } from "@/shared/icons";
 
 export function Navbar() {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // Close menu on route change
     useEffect(() => {
         setIsMenuOpen(false);
     }, [pathname]);
 
-    // Close menu on resize to desktop
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 768) {
@@ -30,7 +28,6 @@ export function Navbar() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // Lock body scroll when menu is open
     useEffect(() => {
         const originalOverflow = document.body.style.overflow;
 
@@ -67,7 +64,6 @@ export function Navbar() {
         <>
             <header className="sticky top-0 w-full h-[60px] z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm transition-colors flex items-center font-sans">
                 <div className="mx-auto w-full max-w-[1440px] px-6 md:px-8 flex items-center justify-between">
-                    {/* Logo */}
                     <Link
                         href="/"
                         className="hover:opacity-80 transition-opacity flex items-center -ml-2"
@@ -85,7 +81,6 @@ export function Navbar() {
                     </Link>
 
                     <div className="flex items-center gap-6">
-                        {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
                             {navigationItems.map((item) => {
                                 const isActive = isNavItemActive(item.path);
@@ -94,8 +89,8 @@ export function Navbar() {
                                         key={item.path}
                                         href={item.path}
                                         className={`text-[15px] font-semibold uppercase tracking-wide transition-colors duration-200 ${isActive
-                                            ? "text-red-600 dark:text-red-500"
-                                            : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
+                                                ? "text-red-600 dark:text-red-500"
+                                                : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
                                             }`}
                                         aria-current={isActive ? "page" : undefined}
                                     >
@@ -108,7 +103,6 @@ export function Navbar() {
                         <div className="flex items-center gap-2 md:gap-4 border-l border-border pl-4">
                             <ThemeToggle />
 
-                            {/* Mobile Menu Button */}
                             <button
                                 className="md:hidden p-2 text-foreground hover:text-red-600 transition-colors"
                                 onClick={handleMenuToggle}
@@ -123,7 +117,6 @@ export function Navbar() {
                 </div>
             </header>
 
-            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
@@ -134,7 +127,6 @@ export function Navbar() {
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
                         className="fixed inset-0 z-[9999] bg-background md:hidden flex flex-col"
                     >
-                        {/* Mobile Menu Header */}
                         <div className="h-[60px] flex items-center justify-between px-6 md:px-8 border-b border-border">
                             <Link
                                 href="/"
@@ -161,7 +153,6 @@ export function Navbar() {
                             </button>
                         </div>
 
-                        {/* Mobile Navigation */}
                         <nav className="flex-1 flex flex-col items-center justify-start pt-16 gap-8 p-12 overflow-y-auto" aria-label="Mobile navigation">
                             {navigationItems.map((item, index) => {
                                 const isActive = isNavItemActive(item.path);
@@ -177,8 +168,8 @@ export function Navbar() {
                                             href={item.path}
                                             onClick={handleCloseMenu}
                                             className={`text-4xl font-bold uppercase tracking-tighter transition-all hover:scale-105 inline-block ${isActive
-                                                ? "text-red-600 dark:text-red-500"
-                                                : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
+                                                    ? "text-red-600 dark:text-red-500"
+                                                    : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
                                                 }`}
                                             aria-current={isActive ? "page" : undefined}
                                         >
@@ -188,7 +179,6 @@ export function Navbar() {
                                 );
                             })}
 
-                            {/* Social Links */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}

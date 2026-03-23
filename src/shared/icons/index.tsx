@@ -1,9 +1,7 @@
 import type { SVGProps } from "react";
 
-// Base props for all icons
 type IconProps = SVGProps<SVGSVGElement>;
 
-// GitHub Icon
 export function GithubIcon(props: IconProps) {
     return (
         <svg
@@ -19,7 +17,6 @@ export function GithubIcon(props: IconProps) {
     );
 }
 
-// LinkedIn Icon
 export function LinkedinIcon(props: IconProps) {
     return (
         <svg
@@ -39,7 +36,6 @@ export function LinkedinIcon(props: IconProps) {
     );
 }
 
-// Twitter/X Icon
 export function TwitterIcon(props: IconProps) {
     return (
         <svg
@@ -55,7 +51,6 @@ export function TwitterIcon(props: IconProps) {
     );
 }
 
-// YouTube Icon
 export function YouTubeIcon(props: IconProps) {
     return (
         <svg
@@ -71,7 +66,6 @@ export function YouTubeIcon(props: IconProps) {
     );
 }
 
-// Icon map for dynamic rendering
 export const iconMap = {
     github: GithubIcon,
     linkedin: LinkedinIcon,

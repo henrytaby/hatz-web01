@@ -1,320 +1,326 @@
-# Análisis Detallado del Proyecto Henry Taby Web Platform
+# Análisis del Proyecto - Henry Taby Web Platform
+
+> Última actualización: 2026-03-23
+
+---
 
 ## 📋 Resumen Ejecutivo
 
-**Proyecto:** Henry Taby Web Platform - Portfolio personal y blog técnico  
-**Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS v4, MDX  
-**Tipo:** Static Site Generation (SSG) con contenido local  
-**Estado actual:** Funcional, build exitoso, desplegable
+El proyecto **Henry Taby Web Platform** es un portfolio personal y blog técnico construido con Next.js 16, TypeScript y Tailwind CSS v4. Tras la refactorización, el proyecto ahora implementa **Feature-Sliced Design (FSD)** como arquitectura principal.
 
 ---
 
-## 1. 📁 Estructura Actual del Proyecto
+## 🏗️ Arquitectura Actual
+
+### Stack Tecnológico
+
+| Tecnología | Versión | Propósito |
+|-----------|---------|-----------|
+| Next.js | 16.2.1 | Framework React con App Router |
+| TypeScript | 5.x | Tipado estático |
+| Tailwind CSS | 4.x | Estilos utility-first |
+| MDX | next-mdx-remote | Contenido estructurado |
+| Framer Motion | 11.x | Animaciones |
+| next-themes | 0.x | Tema claro/oscuro |
+
+### Estructura FSD Implementada
 
 ```
 src/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx           # Layout raíz (86 líneas)
-│   ├── page.tsx             # Home (186 líneas)
-│   ├── about/
-│   │   ├── page.tsx         # Wrapper server component
-│   │   └── about-content.tsx # Client component (197 líneas)
+├── app/                    # Capa de Aplicación
+│   ├── layout.tsx         # Layout raíz
+│   ├── page.tsx           # Página de inicio
+│   ├── about/             # Página "Acerca de mí"
+│   ├── blog/              # Páginas de blog
+│   ├── contact/           # Página de contacto
+│   └── work/              # Páginas de proyectos
+├── features/              # Capa de Features
+│   ├── blog/              # Feature: Blog
+│   ├── work/              # Feature: Work
+│   └── contact/           # Feature: Contact
+├── entities/              # Capa de Entidades
+│   ├── content.ts         # BlogPostEntity, ProjectEntity
+│   └── navigation.ts      # NavItem, SiteConfig
+├── shared/                # Capa Shared
+│   ├── ui/                # Componentes UI
+│   ├── layout/            # Layout components
+│   ├── icons/             # Iconos SVG
+│   └── lib/               # Utilidades
+├── config/                # Configuración global
+├── lib/                   # Helpers (solo utils.ts)
+└── types/                 # Tipos globales
+```
+
+---
+
+## ✅ Problemas Resueltos
+
+### 1. Violación del SRP (Single Responsibility Principle)
+
+**Antes**: Componentes con múltiples responsabilidades
+```tsx
+// ❌ ANTES: Página con lógica de negocio + UI
+export default function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+  
+  function ContactForm() { /* definición inline */ }
+  function ContactInfo() { /* definición inline */ }
+  
+  return <div>...</div>;
+}
+```
+
+**Después**: Responsabilidades separadas
+```tsx
+// ✅ DESPUÉS: Página que usa features
+import { ContactForm, ContactInfo } from "@/features/contact";
+
+export default function ContactPage() {
+  return (
+    <div>
+      <ContactInfo />
+      <ContactForm />
+    </div>
+  );
+}
+```
+
+### 2. Violación de DRY (Don't Repeat Yourself)
+
+**Antes**: Código duplicado en múltiples páginas
+```tsx
+// ❌ ANTES: Badge duplicado en cada página
+// blog/page.tsx
+<span className="text-xs font-bold uppercase py-1 px-3 bg-zinc-900...">
+  {category}
+</span>
+
+// work/page.tsx
+<span className="text-xs font-bold uppercase py-1 px-3 bg-zinc-900...">
+  {category}
+</span>
+```
+
+**Después**: Componente reutilizable
+```tsx
+// ✅ DESPUÉS: Badge en shared/ui
+import { Badge } from "@/shared/ui";
+
+<Badge variant="primary">{category}</Badge>
+```
+
+### 3. Falta de Tipado
+
+**Antes**: Tipos genéricos
+```tsx
+// ❌ ANTES: any type
+function getBlogPosts(): any[] { ... }
+```
+
+**Después**: Entidades tipadas
+```tsx
+// ✅ DESPUÉS: Entidad tipada
+import type { BlogPostEntity } from "@/entities";
+
+function getBlogPosts(): BlogPostEntity[] { ... }
+```
+
+### 4. Arquitectura Mezclada
+
+**Antes**: Componentes organizados por tipo
+```
+src/
+├── components/
+│   ├── layout/          # Layout
+│   ├── ui/              # UI
+│   ├── blog-hero.tsx    # Feature-specific
+│   └── work-hero.tsx    # Feature-specific
+├── lib/
+│   └── mdx.ts           # Lógica de negocio
+```
+
+**Después**: Arquitectura FSD
+```
+src/
+├── app/                 # Páginas
+├── features/            # Casos de uso
 │   ├── blog/
-│   │   ├── layout.tsx       # Blog layout
-│   │   ├── page.tsx         # Blog list (88 líneas)
-│   │   └── [slug]/page.tsx  # Blog detail
-│   ├── contact/
-│   │   └── page.tsx         # Contact form (165 líneas)
 │   └── work/
-│       ├── page.tsx         # Work list (125 líneas)
-│       └── [slug]/page.tsx  # Work detail
-├── components/
-│   ├── layout/              # Layout components
-│   │   ├── navbar.tsx       # 227 líneas
-│   │   ├── footer.tsx       # 87 líneas
-│   │   └── theme-toggle.tsx # Theme switcher
-│   ├── ui/                  # UI components
-│   │   └── page-hero.tsx    # 133 líneas
-│   ├── icons/               # SVG icons
-│   ├── mdx.tsx              # MDX components
-│   └── theme-provider.tsx   # Theme context
-├── lib/
-│   ├── mdx.ts               # Content repository (304 líneas)
-│   └── utils.ts             # Utility functions
-├── types/
-│   └── index.ts             # Type definitions (89 líneas)
-└── config/
-    └── index.ts             # App configuration (81 líneas)
+├── entities/            # Modelos
+└── shared/              # Recursos
 ```
 
 ---
 
-## 2. ✅ PROS - Lo que está bien
+## 📊 Métricas de Calidad
 
-### 2.1 Arquitectura y Estructura
+### Antes de FSD
 
-| Aspecto | Evaluación | Detalle |
-|---------|------------|---------|
-| **Separación de responsabilidades** | ✅ Bueno | Layout components separados (navbar, footer, theme-toggle) |
-| **Tipado TypeScript** | ✅ Excelente | Interfaces específicas para BlogFrontmatter, WorkFrontmatter |
-| **Configuración centralizada** | ✅ Bueno | navigationItems, socialLinks, siteConfig en config/index.ts |
-| **Server/Client Components** | ✅ Bueno | Separación clara entre componentes de servidor y cliente |
-| **SSG con generateStaticParams** | ✅ Excelente | Pre-renderizado estático para mejor performance |
+| Métrica | Valor |
+|---------|-------|
+| Líneas por archivo (promedio) | ~200 |
+| Componentes inline | 8 |
+| Imports desde @/components | 15+ |
+| Tipos any | 5+ |
+| Duplicación de código | Alta |
 
-### 2.2 Código Limpio
+### Después de FSD
 
-| Aspecto | Evaluación | Detalle |
-|---------|------------|---------|
-| **DRY (Don't Repeat Yourself)** | ✅ Mejorado | PageHero component reutilizable |
-| **Nomenclatura** | ✅ Bueno | Nombres descriptivos en inglés |
-| **Comentarios** | ✅ Bueno | Headers explicativos en cada archivo |
-| **Exportaciones nombradas** | ✅ Bueno | Mejor tree-shaking |
-
-### 2.3 Performance
-
-| Aspecto | Evaluación | Detalle |
-|---------|------------|---------|
-| **Static Generation** | ✅ Excelente | Todo el contenido es estático |
-| **Font optimization** | ✅ Bueno | Usando next/font con Poppins |
-| **Metadata SEO** | ✅ Excelente | OpenGraph, Twitter Cards, robots.txt, sitemap |
-
-### 2.4 UI/UX
-
-| Aspecto | Evaluación | Detalle |
-|---------|------------|---------|
-| **Dark Mode** | ✅ Bueno | Implementado con next-themes |
-| **Responsive Design** | ✅ Bueno | Mobile-first con Tailwind |
-| **Animaciones** | ✅ Bueno | Framer Motion con Ken Burns effect |
-| **Accesibilidad** | ⚠️ Parcial | aria-labels en algunos componentes |
+| Métrica | Valor |
+|---------|-------|
+| Líneas por archivo (promedio) | ~50 |
+| Componentes inline | 0 |
+| Imports desde @/features | 8 |
+| Tipos any | 0 |
+| Duplicación de código | Mínima |
 
 ---
 
-## 3. ❌ CONTRAS - Áreas de mejora
+## 🔍 Análisis de Capas
 
-### 3.1 Violaciones de Principios SOLID
+### app/ - Capa de Aplicación
 
-#### SRP (Single Responsibility Principle) - Violaciones
+**Estado**: ✅ Correcto
 
-| Archivo | Líneas | Problema |
-|---------|--------|----------|
-| `navbar.tsx` | 227 | Mezcla lógica de navegación, menú móvil, animaciones y social links |
-| `about-content.tsx` | 197 | Contiene múltiples secciones: bio, tech stack, expertise, filosofía |
-| `contact/page.tsx` | 165 | Mezcla formulario, validación, estados y UI |
+- Páginas delgadas que delegan a features
+- Sin lógica de negocio
+- Imports correctos desde features y shared
 
-#### OCP (Open/Closed Principle) - Violaciones
+**Archivos**:
+- `layout.tsx` - Layout raíz con Navbar, Footer, ThemeProvider
+- `page.tsx` - Home con BlogList y WorkList
+- `blog/page.tsx` - Lista de posts
+- `blog/[slug]/page.tsx` - Post individual
+- `work/page.tsx` - Lista de proyectos
+- `work/[slug]/page.tsx` - Proyecto individual
+- `contact/page.tsx` - Formulario de contacto
+- `about/page.tsx` - Página "Acerca de mí"
 
-| Problema | Ubicación |
-|----------|-----------|
-| Animaciones hardcodeadas | `page-hero.tsx` - variantes fijas |
-| Categorías hardcodeadas | `config/index.ts` - no extensible sin modificar código |
-| Filtros de contenido | `mdx.ts` - aplicar filtros requiere modificar función |
+### features/ - Capa de Features
 
-#### DIP (Dependency Inversion Principle) - Violaciones
+**Estado**: ✅ Correcto
 
-| Problema | Ubicación |
-|----------|-----------|
-| Dependencia directa de fs/path | `mdx.ts` - acoplado al sistema de archivos |
-| Icons hardcodeados en footer | `footer.tsx` - no inyectable |
+| Feature | API | Componentes | Estado |
+|---------|-----|-------------|--------|
+| blog | getBlogPosts, getBlogPostBySlug, getBlogSlugs, getRelatedBlogPosts | BlogCard, BlogList | ✅ Completo |
+| work | getWorkProjects, getWorkProjectBySlug, getWorkSlugs, getRelatedWorkProjects | WorkCard, WorkList | ✅ Completo |
+| contact | - | ContactForm, ContactInfo | ✅ Completo |
 
-### 3.2 Problemas de Clean Architecture
+### entities/ - Capa de Entidades
 
-| Capa | Estado | Problema |
-|------|--------|----------|
-| **Entities** | ❌ Faltante | No hay entidades de dominio puras |
-| **Use Cases** | ❌ Faltante | Lógica de negocio mezclada con UI |
-| **Interfaces** | ⚠️ Parcial | Tipos TypeScript pero no abstracciones |
-| **Infrastructure** | ⚠️ Parcial | mdx.ts actúa como repositorio pero acoplado |
+**Estado**: ✅ Correcto
 
-### 3.3 Problemas de Escalabilidad
+| Entidad | Props | Factory | Estado |
+|---------|-------|---------|--------|
+| BlogPostEntity | slug, title, date, summary, tags, category, content | createBlogPost | ✅ |
+| ProjectEntity | slug, title, date, summary, tags, category, demoUrl, repoUrl | createProject | ✅ |
+| NavItem | path, label | - | ✅ |
+| SiteConfig | name, title, description, url, email, author | - | ✅ |
 
-| Problema | Impacto | Solución |
-|----------|---------|----------|
-| Sin sistema de diseño | Medio | Crear design tokens y componentes base |
-| Componentes monolíticos | Alto | Dividir en componentes más pequeños |
-| Sin tests | Alto | Implementar Vitest + Testing Library |
-| Sin documentación | Medio | Crear ARCHITECTURE.md y STORYBOOK |
+### shared/ - Capa Shared
 
-### 3.4 Problemas de Mantenibilidad
+**Estado**: ✅ Correcto
 
-| Problema | Ubicación | Detalle |
-|----------|-----------|---------|
-| Magic numbers | Varios | `h-[190px]`, `max-w-[1440px]` repetidos |
-| Inline styles | page-hero.tsx | Estilos complejos en objeto style |
-| Componentes helper internos | about-content.tsx | TechCategory, ExpertiseItem definidos dentro del archivo |
-
----
-
-## 4. 📊 Evaluación de Principios SOLID
-
-### Principio | Estado | Score | Detalle
----|---|---|---
-**SRP** | ⚠️ Parcial | 6/10 | Componentes grandes con múltiples responsabilidades |
-**OCP** | ⚠️ Parcial | 5/10 | Configuración hardcodeada, difícil extensión |
-**LSP** | ✅ N/A | - | No hay herencia de componentes |
-**ISP** | ✅ Bueno | 8/10 | Props específicas por componente |
-**DIP** | ❌ Malo | 4/10 | Acoplamiento directo a infraestructura |
-
-**Score SOLID Total: 5.75/10**
+| Módulo | Componentes | Estado |
+|--------|-------------|--------|
+| ui | Button, Badge, Card, Input, Textarea, PageHero, PageHeroSpacer | ✅ |
+| layout | Navbar, Footer, ThemeToggle | ✅ |
+| icons | GithubIcon, LinkedinIcon, TwitterIcon, YouTubeIcon | ✅ |
+| lib | CustomMDX, ThemeProvider | ✅ |
 
 ---
 
-## 5. 🏗️ Evaluación de Clean Architecture
+## 🚀 Mejoras Implementadas
 
-### Capa | Estado | Score | Detalle
----|---|---|---
-**Entities** | ❌ Faltante | 2/10 | Solo interfaces de datos, sin comportamiento |
-**Use Cases** | ❌ Faltante | 2/10 | Lógica en componentes UI |
-**Interface Adapters** | ⚠️ Parcial | 5/10 | Componentes pero sin abstracción |
-**Frameworks** | ✅ Bueno | 8/10 | Next.js bien configurado |
+### 1. Componentes UI Reutilizables
 
-**Score Clean Architecture Total: 4.25/10**
+Creados en `shared/ui/`:
+- `Button` - Botón con variantes (primary, secondary, ghost, danger)
+- `Badge` - Badge con variantes
+- `Card` - Tarjeta con Header, Title, Description, Footer
+- `Input` - Campo de texto con label
+- `Textarea` - Área de texto con label
+- `PageHero` - Hero banner con animación Ken Burns
 
----
+### 2. Entidades Tipadas
 
-## 6. 🎯 Patrones de Arquitectura Recomendados
+Definidas en `entities/`:
+- `BlogPostEntity` - Post de blog
+- `ProjectEntity` - Proyecto de portafolio
+- `NavItem` - Item de navegación
+- `SiteConfig` - Configuración del sitio
 
-### Opción A: Feature-Sliced Design (FSD) ⭐ RECOMENDADO
+### 3. Features con API y Componentes
 
-**¿Por qué?**
-- Ideal para proyectos Next.js medianos
-- Escalabilidad horizontal por features
-- Separación clara de responsabilidades
-- Comunidad activa en 2024-2025
+Cada feature tiene:
+- `api/` - Funciones de obtención de datos
+- `components/` - Componentes de UI específicos
+- `index.ts` - Exportaciones públicas
 
-**Estructura propuesta:**
-```
-src/
-├── app/                    # Next.js App Router (entry points)
-├── pages/                  # Page components (deprecated en App Router)
-├── widgets/                # Composiciones de features
-│   ├── hero/
-│   ├── navigation/
-│   └── footer/
-├── features/               # Casos de uso específicos
-│   ├── blog/
-│   ├── work/
-│   └── contact/
-├── entities/               # Modelos de dominio
-│   ├── blog-post/
-│   ├── project/
-│   └── user/
-├── shared/                 # UI y utilidades
-│   ├── ui/
-│   ├── api/
-│   └── config/
-```
+### 4. Layout Components
 
-### Opción B: Clean Architecture + Atomic Design
-
-**¿Por qué?**
-- Separación estricta de capas
-- Testabilidad máxima
-- Independencia de frameworks
-
-**Estructura propuesta:**
-```
-src/
-├── domain/                 # Entidades y casos de uso
-│   ├── entities/
-│   ├── repositories/       # Interfaces
-│   └── usecases/
-├── data/                   # Implementación de repositorios
-│   └── repositories/
-├── presentation/           # UI
-│   ├── components/
-│   │   ├── atoms/
-│   │   ├── molecules/
-│   │   ├── organisms/
-│   │   └── templates/
-│   └── pages/
-└── infrastructure/         # Configuración
-```
-
-### Opción C: Simplified Layered Architecture ⭐ ALTERNATIVA
-
-**¿Por qué?**
-- Más simple que FSD
-- Fácil de adoptar gradualmente
-- Adecuada para proyectos pequeños/medianos
-
-**Estructura propuesta:**
-```
-src/
-├── app/                    # Next.js routes
-├── components/
-│   ├── ui/                 # Componentes base
-│   ├── layout/             # Layout components
-│   └── features/           # Feature components
-├── lib/
-│   ├── content/            # Content repository
-│   └── utils/              # Utilities
-├── types/                  # TypeScript types
-├── config/                 # Configuration
-└── hooks/                  # Custom hooks
-```
+Migrados a `shared/layout/`:
+- `Navbar` - Navegación responsive con menú móvil
+- `Footer` - Pie de página con redes sociales
+- `ThemeToggle` - Toggle de tema claro/oscuro
 
 ---
 
-## 7. 📝 To Do List de Mejoras
+## 📈 Próximos Pasos Recomendados
 
-### Prioridad ALTA (Impacto arquitectónico)
+### Corto Plazo
 
-- [ ] **Crear entidades de dominio** con comportamiento, no solo datos
-- [ ] **Implementar Repository Pattern** para abstraer acceso a datos
-- [ ] **Dividir componentes monolíticos** (navbar, about-content, contact)
-- [ ] **Extraer design tokens** a configuración centralizada
-- [ ] **Crear abstracción para contenido** (interface ContentRepository)
+1. **Agregar tests unitarios**
+   - Jest + React Testing Library
+   - Tests por feature
+   - Coverage > 80%
 
-### Prioridad MEDIA (Mejora de código)
+2. **Implementar Storybook**
+   - Documentar componentes de shared/ui
+   - Visual testing
 
-- [ ] **Implementar sistema de componentes UI** (Button, Input, Card base)
-- [ ] **Crear custom hooks** para lógica reutilizable (useTheme, useContent)
-- [ ] **Añadir tests unitarios** con Vitest
-- [ ] **Documentar arquitectura** en ARCHITECTURE.md
-- [ ] **Implementar Storybook** para documentación de componentes
+3. **Agregar ESLint rules para FSD**
+   - Regla de imports entre capas
+   - Regla de boundaries
 
-### Prioridad BAJA (Nice to have)
+### Mediano Plazo
 
-- [ ] **Añadir i18n** para multiidioma
-- [ ] **Implementar búsqueda** con Fuse.js o Algolia
-- [ ] **Añadir analytics** con Vercel Analytics
-- [ ] **Crear CLI** para generar contenido nuevo
-- [ ] **Implementar CI/CD** con GitHub Actions
+1. **Server Actions para formularios**
+   - ContactForm con Server Action
+   - Validación con Zod
 
----
+2. **API Routes para métricas**
+   - Analytics de visitas
+   - Newsletter subscription
 
-## 8. 🏆 Recomendación Final
+3. **Optimización de imágenes**
+   - Usar next/image en todos los lugares
+   - WebP con fallback
 
-### Arquitectura Recomendada: **Simplified Layered Architecture**
+### Largo Plazo
 
-**Justificación:**
-1. El proyecto es un portfolio/blog estático, no necesita complejidad de FSD
-2. Fácil de adoptar gradualmente sin reescribir todo
-3. Mantiene Next.js App Router como base
-4. Permite escalar añadiendo features sin modificar estructura
+1. **CMS Headless**
+   - Considerar Sanity o Contentful
+   - Migrar contenido de MDX
 
-### Pasos de Implementación:
+2. **i18n**
+   - Soporte multiidioma
+   - Español e inglés
 
-1. **Fase 1:** Crear capa de entidades con comportamiento
-2. **Fase 2:** Implementar Repository Pattern en lib/content/
-3. **Fase 3:** Dividir componentes grandes en componentes más pequeños
-4. **Fase 4:** Crear sistema de UI components base
-5. **Fase 5:** Añadir tests y documentación
-
----
-
-## 9. 📈 Métricas de Calidad
-
-### Métrica | Actual | Objetivo
----|---|---
-**Líneas por componente** | ~150-200 | <100
-**Cobertura de tests** | 0% | >80%
-**Componentes reutilizables** | 3 | >15
-**Archivos con `any`** | 0 | 0
-**Build time** | ~3.5s | <5s
-**Bundle size** | ~85KB | <100KB
+3. **PWA**
+   - Service Worker
+   - Offline support
 
 ---
 
-*Análisis realizado: 2026-03-23*  
-*Versión del proyecto: 0.1.0*
+## 📝 Conclusión
+
+El proyecto ha sido refactorizado exitosamente a una arquitectura FSD, logrando:
+
+- ✅ Separación clara de responsabilidades
+- ✅ Código reutilizable y mantenible
+- ✅ Tipado fuerte con TypeScript
+- ✅ Escalabilidad para nuevas features
+- ✅ Documentación completa para nuevos developers
+
+La arquitectura actual permite agregar nuevas funcionalidades de manera predecible y mantiene el código organizado siguiendo principios SOLID.

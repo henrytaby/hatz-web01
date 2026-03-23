@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { PageHero, PageHeroSpacer } from "@/components/ui/page-hero";
+import { PageHero, PageHeroSpacer } from "@/shared/ui";
 
 export default function AboutContent() {
   return (

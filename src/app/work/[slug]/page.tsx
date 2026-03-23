@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExternalLink, Github, ArrowLeft } from "lucide-react";
 import { getWorkProjectBySlug, getWorkSlugs, getRelatedWorkProjects } from "@/features/work";
-import { CustomMDX } from "@/components/mdx";
+import { CustomMDX } from "@/shared/lib";
 import { Badge } from "@/shared/ui";
 
 export async function generateStaticParams() {
