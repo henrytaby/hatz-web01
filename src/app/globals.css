@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-red-400: #e21d19;
+  --color-red-500: #ba0d09;
+  --color-red-600: #ba0d09;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #fafafa;
+  --foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
 }
 
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --muted: #111111;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+}
+
+/* Typography optimizations & Prose/MDX Custom Styles */
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: radial-gradient(ellipse at top, var(--muted), transparent 70%);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.prose {
+  max-width: 100%;
+  color: var(--foreground);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.prose a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.prose a:hover {
+  text-decoration-color: transparent;
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
+}
+
+.prose code {
+  color: var(--foreground);
+  background-color: var(--muted);
+  padding: 0.15rem 0.3rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  font-family: var(--font-mono);
+}
+
+.prose pre {
+  background-color: #111111 !important;
+  color: #f8f8f2 !important;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: 1em;
+}
+
+.prose blockquote {
+  font-style: italic;
+  color: var(--muted-foreground);
+  border-left: 2px solid var(--border);
+  padding-left: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }

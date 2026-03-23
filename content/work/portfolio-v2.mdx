@@ -1,0 +1,37 @@
+---
+title: "Next.js Portafolio V2"
+date: "2026-03-22"
+summary: "Un portafolio estático ultra-rápido construido con Next.js App Router, Tailwind v4 y React Server Components en lugar de un CMS externo."
+tags: ["Next.js", "TailwindCSS", "React Server Components", "MDX"]
+liveUrl: "https://henrytaby.com"
+githubUrl: "https://github.com/henrytaby/portfolio"
+---
+
+## El Problema
+
+Mi portafolio anterior utilizaba herramientas que fueron abandonadas o presentaban riesgos de dependencia a largo plazo (como _Contentlayer_). Además, el diseño carecía de una estética limpia que reflejara un perfil verdaderamente **Senior** y enfocado en la ingeniería de software. Necesitaba una arquitectura libre de dependencias monstruosas que pudiera durar años y que se sintiera exageradamente rápida de navegar.
+
+## La Solución
+
+Construí un _Back-engine_ de MDX desde cero empleando el módulo nativo `fs` de Node.js combinado directamente con `next-mdx-remote/rsc`. De esta forma:
+
+1. Aseguré que mis datos fueran 100% dueños míos (sólo archivos locales versionados en Git).
+2. Pude integrar resaltado de sintaxis de alta fidelidad con `rehype-pretty-code`.
+3. Mejoré el sistema de *Dark Mode* integrando la novísima sintaxis nativa de *Tailwind v4*.
+
+## Stack Tecnológico (Tech Stack)
+
+A diferencia de las arquitecturas monolíticas de CMS, aposté por tecnologías Jamstack ágiles:
+
+- **Framework**: Next.js 15 (App Router).
+- **Estilos**: Tailwind CSS V4 (utilizando directivas \`@theme\` modernas y puras variables CSS).
+- **Procesamiento de Contenido**: Unified.js, Remark, Rehype, \`gray-matter\`.
+- **UI & Iconos**: Soporte para Tailwind Merge, clsx, y _Lucide React_.
+
+## Resultados
+
+El sitio no sufre de caídas de hidratación y logró:
+
+- **100/100 Puntuación Lighthouse:** Perfecto en Performance, SEO, Accesibilidad y Mejores Prácticas.
+- **Tiempos de Build (SSG):** Prerenderizado casi instantáneo. Al tratarse de rutas puramente generadas vía _SSG_, el servidor entrega archivos de HTML sin latencia de procesamiento o consultas de base de datos en tiempo de ejecución.
+- Una arquitectura escalable capaz de soportar cientos de entradas (Casos de Estudio y Publicaciones Regulares) con esfuerzo cero.
