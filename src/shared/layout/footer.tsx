@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { GithubIcon, LinkedinIcon, TwitterIcon, YouTubeIcon } from "@/shared/icons";
 
 const footerTags = ["ARTICULOS", "CHAT", "GALLERY", "PICTURES", "SOFTWARE", "REACT"] as const;
@@ -11,10 +12,14 @@ export function Footer() {
                 {/* Brand Column */}
                 <div className="flex flex-col gap-4 max-w-sm">
                     <div className="mb-0">
-                        <img
+                        <Image
                             src="/img/brand/logo-footer.png"
                             alt="Henry Taby Footer Logo"
+                            width={0}
+                            height={0}
+                            sizes="150px"
                             className="h-24 w-auto object-contain"
+                            style={{ height: '96px', width: 'auto' }}
                         />
                     </div>
                     <div className="flex items-center gap-4 mt-2">

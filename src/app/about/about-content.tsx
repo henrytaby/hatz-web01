@@ -35,7 +35,7 @@ export default function AboutContent() {
 
           <div className="font-normal text-justify text-muted-foreground text-base leading-relaxed space-y-8">
             <p className="text-lg md:text-xl text-foreground font-medium leading-relaxed italic border-l-4 border-zinc-200 dark:border-zinc-800 pl-6">
-              "Apasionado por la intersección entre la precisión del código y la narrativa visual, buscando siempre entender y documentar el mundo a través de la tecnología y el arte."
+              &ldquo;Apasionado por la intersección entre la precisión del código y la narrativa visual, buscando siempre entender y documentar el mundo a través de la tecnología y el arte.&rdquo;
             </p>
 
             <div className="space-y-6">
@@ -167,7 +167,7 @@ export default function AboutContent() {
           viewport={{ once: true }}
           className="relative z-10 text-zinc-500 dark:text-zinc-400 text-sm md:text-base italic font-medium tracking-wide"
         >
-          "La tecnología es el medio, el arte es el mensaje."
+          &ldquo;La tecnología es el medio, el arte es el mensaje.&rdquo;
         </motion.p>
       </div>
     </div>

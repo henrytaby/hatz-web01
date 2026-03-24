@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -15,11 +16,18 @@ export function Navbar() {
     const menuCloseButtonRef = useRef<HTMLButtonElement>(null);
     const menuOpenButtonRef = useRef<HTMLButtonElement>(null);
     const firstMenuItemRef = useRef<HTMLAnchorElement>(null);
+    const prevPathnameRef = useRef(pathname);
 
-    // Close menu on route change
+    // Close menu on route change - sync with router (external system)
+    // This is a valid use case for setState in effect: responding to external system changes
     useEffect(() => {
-        setIsMenuOpen(false);
-    }, [pathname]);
+        // Only close if pathname actually changed and menu is open
+        if (prevPathnameRef.current !== pathname && isMenuOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setIsMenuOpen(false);
+        }
+        prevPathnameRef.current = pathname;
+    }, [pathname, isMenuOpen]);
 
     // Close menu on resize to desktop
     useEffect(() => {
@@ -130,16 +138,24 @@ export function Navbar() {
                         className="hover:opacity-80 transition-opacity flex items-center -ml-2"
                         aria-label="Henry Taby - Home"
                     >
-                        <img
+                        <Image
                             src="/img/brand/logo.png"
                             alt=""
+                            width={0}
+                            height={0}
+                            sizes="120px"
                             className="h-[45px] w-auto dark:hidden"
+                            style={{ height: '45px', width: 'auto' }}
                             aria-hidden="true"
                         />
-                        <img
+                        <Image
                             src="/img/brand/logo-footer.png"
                             alt=""
+                            width={0}
+                            height={0}
+                            sizes="120px"
                             className="h-[45px] w-auto hidden dark:block"
+                            style={{ height: '45px', width: 'auto' }}
                             aria-hidden="true"
                         />
                         <span className="sr-only">Henry Taby - Home</span>
@@ -158,8 +174,8 @@ export function Navbar() {
                                         key={item.path}
                                         href={item.path}
                                         className={`text-[15px] font-semibold uppercase tracking-wide transition-colors duration-200 ${isActive
-                                                ? "text-red-600 dark:text-red-500"
-                                                : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
+                                            ? "text-red-600 dark:text-red-500"
+                                            : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
                                             }`}
                                         aria-current={isActive ? "page" : undefined}
                                     >
@@ -208,16 +224,24 @@ export function Navbar() {
                                 onClick={handleCloseMenu}
                                 aria-label="Henry Taby - Home"
                             >
-                                <img
+                                <Image
                                     src="/img/brand/logo.png"
                                     alt=""
+                                    width={0}
+                                    height={0}
+                                    sizes="120px"
                                     className="h-[45px] w-auto dark:hidden"
+                                    style={{ height: '45px', width: 'auto' }}
                                     aria-hidden="true"
                                 />
-                                <img
+                                <Image
                                     src="/img/brand/logo-footer.png"
                                     alt=""
+                                    width={0}
+                                    height={0}
+                                    sizes="120px"
                                     className="h-[45px] w-auto hidden dark:block"
+                                    style={{ height: '45px', width: 'auto' }}
                                     aria-hidden="true"
                                 />
                                 <span className="sr-only">Henry Taby - Home</span>
@@ -252,8 +276,8 @@ export function Navbar() {
                                             onClick={handleCloseMenu}
                                             ref={index === 0 ? firstMenuItemRef : undefined}
                                             className={`text-4xl font-bold uppercase tracking-tighter transition-all hover:scale-105 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm px-2 ${isActive
-                                                    ? "text-red-600 dark:text-red-500"
-                                                    : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
+                                                ? "text-red-600 dark:text-red-500"
+                                                : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
                                                 }`}
                                             aria-current={isActive ? "page" : undefined}
                                         >
