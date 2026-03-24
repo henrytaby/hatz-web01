@@ -27,9 +27,9 @@ export default function Home() {
         </div>
 
         {/* Main headline */}
-        <h1 className="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter max-w-4xl text-foreground !leading-[1.05] drop-shadow-sm">
+        <h1 className="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter max-w-4xl text-foreground leading-[1.05]! drop-shadow-sm">
           Ingeniería Web <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-neutral-700 dark:from-neutral-200 dark:to-neutral-500 inline-block">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-neutral-400 to-neutral-700 dark:from-neutral-200 dark:to-neutral-500 inline-block">
             Elevada a Arte.
           </span>
         </h1>

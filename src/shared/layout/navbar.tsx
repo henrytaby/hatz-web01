@@ -89,8 +89,8 @@ export function Navbar() {
                                         key={item.path}
                                         href={item.path}
                                         className={`text-[15px] font-semibold uppercase tracking-wide transition-colors duration-200 ${isActive
-                                                ? "text-red-600 dark:text-red-500"
-                                                : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
+                                            ? "text-red-600 dark:text-red-500"
+                                            : "text-foreground/80 hover:text-red-600 dark:hover:text-red-500"
                                             }`}
                                         aria-current={isActive ? "page" : undefined}
                                     >
@@ -125,7 +125,7 @@ export function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed inset-0 z-[9999] bg-background md:hidden flex flex-col"
+                        className="fixed inset-0 z-9999 bg-background md:hidden flex flex-col"
                     >
                         <div className="h-[60px] flex items-center justify-between px-6 md:px-8 border-b border-border">
                             <Link
@@ -168,8 +168,8 @@ export function Navbar() {
                                             href={item.path}
                                             onClick={handleCloseMenu}
                                             className={`text-4xl font-bold uppercase tracking-tighter transition-all hover:scale-105 inline-block ${isActive
-                                                    ? "text-red-600 dark:text-red-500"
-                                                    : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
+                                                ? "text-red-600 dark:text-red-500"
+                                                : "text-foreground/60 hover:text-red-600 dark:hover:text-red-500"
                                                 }`}
                                             aria-current={isActive ? "page" : undefined}
                                         >
