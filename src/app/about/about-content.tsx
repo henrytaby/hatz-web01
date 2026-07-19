@@ -73,7 +73,7 @@ export default function AboutContent() {
         </motion.div>
 
         {/* Columna Derecha (Sidebar): Retrato + Quick Info */}
-        <aside className="w-full lg:w-[400px] shrink-0 space-y-8 sticky top-24 pb-12">
+        <aside className="w-full lg:w-100 shrink-0 space-y-8 sticky top-24 pb-12">
           {/* Foto Principal */}
           <motion.div
             initial={{ opacity: 0 }}

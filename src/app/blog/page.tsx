@@ -21,7 +21,7 @@ export default function BlogPage() {
       <div className="w-full max-w-container mx-auto px-6 md:px-8 relative">
         {/* Ambient glow */}
         <div
-          className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10"
+          className="absolute top-0 right-0 w-75 h-75 bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10"
           aria-hidden="true"
         />
 

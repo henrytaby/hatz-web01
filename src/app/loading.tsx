@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="w-full min-h-[60vh] flex flex-col items-center justify-center gap-8 relative overflow-hidden">
       {/* Ambient background glow */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/10 blur-[80px] rounded-full opacity-50 pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-75 h-75 bg-primary/10 blur-[80px] rounded-full opacity-50 pointer-events-none"
         aria-hidden="true" 
       />
 

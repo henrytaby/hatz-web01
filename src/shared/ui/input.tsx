@@ -106,7 +106,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                         [hint && hintId, error && errorId].filter(Boolean).join(" ") || undefined
                     }
                     className={cn(
-                        "flex min-h-[140px] w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50",
+                        "flex min-h-35 w-full rounded-xl border border-border bg-zinc-50 dark:bg-black/50",
                         "px-4 py-4 text-base placeholder:text-muted-foreground resize-y",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600",
                         "transition-all disabled:opacity-50",

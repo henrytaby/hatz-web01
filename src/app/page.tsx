@@ -13,7 +13,7 @@ export default function Home() {
       <section className="flex flex-col items-start gap-8 mt-16 md:mt-24 w-full relative">
         {/* Ambient glow */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[120px] rounded-full opacity-30 pointer-events-none -z-10"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/20 blur-[120px] rounded-full opacity-30 pointer-events-none -z-10"
           aria-hidden="true"
         />
 
