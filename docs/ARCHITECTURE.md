@@ -478,44 +478,53 @@ export function BlogList({ posts }: { posts: BlogPostEntity[] }) {
 
 ## 📊 Flujo de Datos
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                         app/                                 │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐        │
-│  │  page   │  │  page   │  │  page   │  │  page   │        │
-│  │ (blog)  │  │ (work)  │  │(contact)│  │ (about) │        │
-│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘        │
-└───────┼────────────┼────────────┼────────────┼─────────────┘
-        │            │            │            │
-        ▼            ▼            ▼            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                       features/                              │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐                     │
-│  │  blog   │  │  work   │  │ contact │                     │
-│  │  api/   │  │  api/   │  │components│                    │
-│  │components│  │components│  └─────────┘                     │
-│  └────┬────┘  └────┬────┘                                   │
-└───────┼────────────┼────────────────────────────────────────┘
-        │            │
-        ▼            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                       entities/                              │
-│  ┌──────────────────┐  ┌──────────────────┐                │
-│  │ BlogPostEntity   │  │  ProjectEntity   │                │
-│  │ NavItem          │  │  SiteConfig      │                │
-│  └──────────────────┘  └──────────────────┘                │
-└─────────────────────────────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────────────────────────────┐
-│                        shared/                               │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐        │
-│  │   ui/   │  │ layout/ │  │  icons/ │  │   lib/  │        │
-│  │ Button  │  │ Navbar  │  │ Github  │  │  MDX    │        │
-│  │ Badge   │  │ Footer  │  │ LinkedIn│  │ Theme   │        │
-│  │ Card    │  │ Toggle  │  │ Twitter │  │         │        │
-│  └─────────┘  └─────────┘  └─────────┘  └─────────┘        │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    %% Capa de Aplicación
+    subgraph app["app/ (Capa de Aplicación)"]
+        direction LR
+        p_blog["page (blog)"]
+        p_work["page (work)"]
+        p_contact["page (contact)"]
+        p_about["page (about)"]
+    end
+
+    %% Capa de Features
+    subgraph features["features/ (Capa de Features)"]
+        direction LR
+        f_blog["blog/\n(api, components)"]
+        f_work["work/\n(api, components)"]
+        f_contact["contact/\n(components)"]
+    end
+
+    %% Capa de Entidades
+    subgraph entities["entities/ (Capa de Entidades)"]
+        direction LR
+        e_blog["BlogPostEntity\nNavItem"]
+        e_work["ProjectEntity\nSiteConfig"]
+    end
+
+    %% Capa Shared
+    subgraph shared["shared/ (Capa Shared)"]
+        direction LR
+        s_ui["ui/\n(Button, Badge)"]
+        s_layout["layout/\n(Navbar, Footer)"]
+        s_icons["icons/\n(SVG)"]
+        s_lib["lib/\n(MDX, Theme)"]
+    end
+
+    %% Relaciones Unidireccionales
+    p_blog --> f_blog
+    p_work --> f_work
+    p_contact --> f_contact
+    
+    f_blog --> entities
+    f_work --> entities
+    
+    entities --> shared
+    
+    p_about --> shared
+    f_contact --> shared
 ```
 
 ---
