@@ -104,7 +104,7 @@ src/
 | **O** - Open/Closed | 10/10 | ✅ | Patrón Compound Components y props pasivas |
 | **L** - Liskov Substitution | 10/10 | ✅ | HTMLAttributes y forwardRef implementados en toda la UI |
 | **I** - Interface Segregation | 10/10 | ✅ | Componentes usan Pick<T> para requerir solo los datos que necesitan |
-| **D** - Dependency Inversion | 9/10 | ✅ | Features dependen de abstracciones (entities) |
+| **D** - Dependency Inversion | 10/10 | ✅ | Features usan la interfaz IContentRepository abstrayendo el acceso a datos |
 
 ### Escalabilidad (9/10)
 
