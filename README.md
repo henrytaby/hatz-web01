@@ -10,7 +10,7 @@ Este es el código fuente del portafolio personal y blog técnico de Henry Taby.
 | **TypeScript** | 5.x | Tipado estático en modo estricto |
 | **Tailwind CSS** | 4.x | Estilos utility-first |
 | **MDX** | next-mdx-remote | Contenido estructurado |
-| **Framer Motion** | 11.x | Animaciones fluidas |
+| **Framer Motion** | 12.x | Animaciones fluidas |
 | **next-themes** | 0.x | Tema claro/oscuro |
 
 ## 🏗️ Arquitectura FSD
@@ -147,7 +147,7 @@ npm run lint
 
 ## 🤝 Contribuir
 
-1. Si trabajas con un AI agent (Antigravity CLI, Cursor, Claude, Gemini, Windsurf, Kilo), lee automáticamente `AGENTS.md` en la raíz; los archivos `gemini.md` / `CLAUDE.md` / `.cursorrules` / `.windsurfrules` son redirects — no los edites. Los skills del proyecto van en `.agents/skills/[name]/SKILL.md`.
+1. Si trabajas con un AI agent (Antigravity CLI, Cursor, Claude, Gemini, Windsurf, Kilo), lee automáticamente `AGENTS.md` en la raíz, que es la fuente canónica. Los skills del proyecto van en `.agents/skills/[name]/SKILL.md`.
 2. Lee [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para entender la arquitectura
 3. Sigue las reglas de dependencia FSD
 4. Usa los imports con alias (`@/features`, `@/shared`, `@/entities`)

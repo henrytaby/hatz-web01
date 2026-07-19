@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
+import { z } from "zod";
 import { Button, Input, Textarea } from "@/shared/ui";
+
+const contactSchema = z.object({
+    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    email: z.string().email("Correo electrónico inválido"),
+    message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
 
 interface ContactFormProps {
     onSubmit?: (data: ContactFormData) => void;
-}
-
-export interface ContactFormData {
-    name: string;
-    email: string;
-    message: string;
 }
 
 export function ContactForm({ onSubmit }: ContactFormProps) {
@@ -21,9 +24,24 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
         email: "",
         message: "",
     });
+    const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const result = contactSchema.safeParse(formData);
+        
+        if (!result.success) {
+            const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
+            const flatErrors = result.error.flatten().fieldErrors;
+            if (flatErrors.name) fieldErrors.name = flatErrors.name[0];
+            if (flatErrors.email) fieldErrors.email = flatErrors.email[0];
+            if (flatErrors.message) fieldErrors.message = flatErrors.message[0];
+            setErrors(fieldErrors);
+            return;
+        }
+
+        setErrors({});
 
         if (onSubmit) {
             onSubmit(formData);
@@ -39,6 +57,10 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        // Clear error when user types
+        if (errors[name as keyof ContactFormData]) {
+            setErrors((prev) => ({ ...prev, [name]: undefined }));
+        }
     };
 
     return (
@@ -72,8 +94,10 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                     required
                     value={formData.name}
                     onChange={handleChange}
+                    error={errors.name}
                     aria-required="true"
-                    aria-describedby="name-hint"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error name-hint" : "name-hint"}
                 />
                 <span id="name-hint" className="sr-only">
                     Ingresa tu nombre completo
@@ -88,8 +112,10 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                     required
                     value={formData.email}
                     onChange={handleChange}
+                    error={errors.email}
                     aria-required="true"
-                    aria-describedby="email-hint"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error email-hint" : "email-hint"}
                     autoComplete="email"
                 />
                 <span id="email-hint" className="sr-only">
@@ -104,8 +130,10 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                     required
                     value={formData.message}
                     onChange={handleChange}
+                    error={errors.message}
                     aria-required="true"
-                    aria-describedby="message-hint"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "message-error message-hint" : "message-hint"}
                 />
                 <span id="message-hint" className="sr-only">
                     Describe tu proyecto o mensaje

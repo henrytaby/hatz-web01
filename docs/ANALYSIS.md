@@ -136,7 +136,7 @@ src/
 | ARCHITECTURE.md | ✅ Completo | Guía FSD para nuevos developers |
 | ANALYSIS.md | ✅ Completo | Este documento |
 | FSD_IMPLEMENTATION.md | ✅ Completo | Guía de implementación |
-| gemini.md | ✅ Completo | Contexto para AI assistants |
+| [AGENTS.md](AGENTS.md) | ✅ Completo | Contexto central para AI assistants |
 | JSDoc comments | ⚠️ Parcial | En funciones complejas |
 | Storybook | ❌ Pendiente | Documentación visual de componentes |
 
