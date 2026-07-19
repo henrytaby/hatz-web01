@@ -92,7 +92,7 @@ src/
 | Nombres descriptivos | ✅ Implementado | Componentes y funciones con nombres claros |
 | Funciones pequeñas | ✅ Implementado | ~50 líneas promedio por archivo |
 | Sin código duplicado | ✅ Implementado | DRY aplicado con componentes shared |
-| Comentarios útiles | ✅ Implementado | JSDoc en funciones complejas |
+| Comentarios útiles | ✅ Implementado | JSDoc en funciones y APIs principales |
 | Formato consistente | ✅ Implementado | ESLint + Prettier configurados |
 | Sin magic numbers | ⚠️ Parcial | Algunos valores hardcodeados en CSS |
 | Manejo de errores | ⚠️ Parcial | Falta manejo robusto en forms |
@@ -137,7 +137,7 @@ src/
 | ANALYSIS.md | ✅ Completo | Este documento |
 | FSD_IMPLEMENTATION.md | ✅ Completo | Guía de implementación |
 | [AGENTS.md](AGENTS.md) | ✅ Completo | Contexto central para AI assistants |
-| JSDoc comments | ⚠️ Parcial | En funciones complejas |
+| JSDoc comments | ✅ Completo | En funciones de API y utils |
 | Storybook | ✅ Completo | Documentación visual de componentes |
 
 ### Performance (10/10)

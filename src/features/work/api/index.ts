@@ -5,6 +5,14 @@ import type { ProjectEntity, WorkCategory } from "@/entities";
 
 const contentDirectory = path.join(process.cwd(), "content", "work");
 
+/**
+ * Retrieves all work projects from the file system.
+ * 
+ * Scans the content/work directory for .md and .mdx files, parses their frontmatter,
+ * and returns an array of project entities sorted by date (newest first).
+ * 
+ * @returns {ProjectEntity[]} An array of all work projects sorted by date descending.
+ */
 export function getWorkProjects(): ProjectEntity[] {
   if (!fs.existsSync(contentDirectory)) {
     return [];
@@ -27,6 +35,15 @@ export function getWorkProjects(): ProjectEntity[] {
   return projects;
 }
 
+/**
+ * Retrieves a specific work project by its slug.
+ * 
+ * Reads the corresponding markdown file, parses the frontmatter and content,
+ * and constructs a ProjectEntity.
+ * 
+ * @param {string} slug - The unique identifier of the work project (filename without extension).
+ * @returns {ProjectEntity | null} The project entity, or null if the file does not exist.
+ */
 export function getWorkProjectBySlug(slug: string): ProjectEntity | null {
   try {
     const fullPathMDX = path.join(contentDirectory, `${slug}.mdx`);
@@ -65,6 +82,13 @@ export function getWorkProjectBySlug(slug: string): ProjectEntity | null {
   }
 }
 
+/**
+ * Retrieves an array of all work project slugs.
+ * 
+ * Useful for statically generating routes for all projects (SSG).
+ * 
+ * @returns {string[]} An array of project slugs.
+ */
 export function getWorkSlugs(): string[] {
   if (!fs.existsSync(contentDirectory)) {
     return [];
@@ -76,6 +100,16 @@ export function getWorkSlugs(): string[] {
     .map((file) => file.replace(/\.mdx?$/, ""));
 }
 
+/**
+ * Retrieves related work projects based on shared tags.
+ * 
+ * Compares the tags of the specified project with all other projects and returns
+ * those that have at least one tag in common.
+ * 
+ * @param {string} slug - The slug of the current project to find relatives for.
+ * @param {number} limit - The maximum number of related projects to return (default is 3).
+ * @returns {ProjectEntity[]} An array of related work projects.
+ */
 export function getRelatedWorkProjects(slug: string, limit = 3): ProjectEntity[] {
   const current = getWorkProjectBySlug(slug);
   if (!current) return [];
@@ -88,6 +122,11 @@ export function getRelatedWorkProjects(slug: string, limit = 3): ProjectEntity[]
     .slice(0, limit);
 }
 
+/**
+ * Retrieves all unique categories used across all work projects.
+ * 
+ * @returns {string[]} An array of unique category strings.
+ */
 export function getWorkCategories(): string[] {
   const projects = getWorkProjects();
   const categories = new Set(
@@ -96,6 +135,11 @@ export function getWorkCategories(): string[] {
   return Array.from(categories) as string[];
 }
 
+/**
+ * Retrieves all unique tags used across all work projects.
+ * 
+ * @returns {string[]} An array of unique tag strings.
+ */
 export function getWorkTags(): string[] {
   const projects = getWorkProjects();
   const allTags = projects.flatMap((project) => project.tags || []);
