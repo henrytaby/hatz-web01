@@ -111,6 +111,7 @@ npm run lint
 
 | Documento | Descripción |
 |-----------|-------------|
+| [AGENTS.md](AGENTS.md) | Fuente canónica de instrucciones para AI agents |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Guía didáctica de FSD para nuevos developers |
 | [docs/ANALYSIS.md](docs/ANALYSIS.md) | Análisis del proyecto y métricas |
 | [docs/FSD_IMPLEMENTATION.md](docs/FSD_IMPLEMENTATION.md) | Detalles de implementación FSD |
@@ -146,10 +147,11 @@ npm run lint
 
 ## 🤝 Contribuir
 
-1. Lee [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para entender la arquitectura
-2. Sigue las reglas de dependencia FSD
-3. Usa los imports con alias (`@/features`, `@/shared`, `@/entities`)
-4. Tipa todas las props con TypeScript
+1. Si trabajas con un AI agent (Antigravity CLI, Cursor, Claude, Gemini, Windsurf, Kilo), lee automáticamente `AGENTS.md` en la raíz; los archivos `gemini.md` / `CLAUDE.md` / `.cursorrules` / `.windsurfrules` son redirects — no los edites. Los skills del proyecto van en `.agents/skills/[name]/SKILL.md`.
+2. Lee [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para entender la arquitectura
+3. Sigue las reglas de dependencia FSD
+4. Usa los imports con alias (`@/features`, `@/shared`, `@/entities`)
+5. Tipa todas las props con TypeScript
 
 ## 📄 Licencia
 

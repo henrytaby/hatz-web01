@@ -42,3 +42,11 @@ next-env.d.ts
 
 # AI tools legacy (memory-bank migrated to AGENTS.md)
 .kilocode/
+
+# AI tools legacy (memory-bank content consolidated into AGENTS.md)
+# .kilocode/ contiene node_modules propios; se conserva solo el backup local
+# de .kilocode/rules/memory-bank/ ya migrado a AGENTS.md.
+.kilocode/
+
+# Kilo workspace (local plans, no versionar)
+.kilo/

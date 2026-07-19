@@ -1,5 +1,14 @@
 # AI Agent Instructions & Project Context
 > *Project: Henry Taby Personal Web Platform*
+> Este archivo es la "fuente canónica de contexto" para cualquier herramienta de IA que opere sobre este repo. Las herramientas lo precargan automáticamente.
+> 
+> **Herramientas soportadas**:
+> - **Antigravity CLI** — lee `AGENTS.md` directamente y `.agents/skills/` para skills.
+> - **Kilo Code CLI** — lee `AGENTS.md` automáticamente (prioridad 3 en system prompt).
+> - Otros agentes compatibles con AGENTS.md (Claude Code, Gemini CLI, Cursor, Windsurf, OpenAI Codex, VS Code Copilot, Aider) lo leen automáticamente.
+> - Skills del proyecto van en `.agents/skills/[skill-name]/SKILL.md` (estándar Agent Skills).
+> 
+> **Idioma**: español-inglés mixto (secciones en español, código/keywords en inglés).
 
 ## 🚨 CRITICAL FRAMEWORK RULES (Next.js)
 <!-- BEGIN:nextjs-agent-rules -->
@@ -372,8 +381,123 @@ Do not reinvent these; import from `@/shared/...`:
 
 ## 🧪 Skills Convention
 
-Project skills are located in `.agents/skills/[skill-name]/SKILL.md`.
-- **Format**: YAML frontmatter (`name`, `description`) + Markdown body.
-- **Loading**: Skills are loaded on demand — the agent reads the description and decides whether to activate.
-- **Naming**: `kebab-case`, max 64 chars, must match the directory name.
-- **To create a skill**: `mkdir -p .agents/skills/my-skill &&` create `SKILL.md`.
+Agent Skills se ubican en `.agents/skills/[skill-name]/SKILL.md`. Estándar abierto `agentskills.io` adoptado por 40+ herramientas.
+
+### Formato SKILL.md
+
+```markdown
+---
+name: skill-name
+description: Max 1024 chars. Describe qué hace y cuándo usarlo (keywords).
+license: Apache-2.0 (opcional)
+compatibility: Requiere Node 18+, docker (opcional)
+metadata:
+  author: tu-nombre
+  version: "1.0"
+---
+
+# Instructions
+
+[Instrucciones paso a paso para el agente.]
+
+## Examples
+
+- Ejemplo 1...
+- Ejemplo 2...
+```
+
+### Campos Frontmatter
+
+| Campo | Req. | Reglas | Ejemplo |
+|-------|:----:|--------|---------|
+| `name` | Sí | kebab-case, max 64 chars, **debe coincidir con nombre del directorio** | `api-design` ✓ | `my-api-design` ✗ (puntos no permitidos) |
+| `description` | Sí | max 1024 chars, debe describir qué hace + cuándo usarlo, usar keywords | `"Extract PDF text, fill forms, merge documents. Use when handling PDFs."` |
+| `license` | No | Nombre o referencia a archivo LICENSE | `Apache-2.0` |
+| `compatibility` | No | Requisitos del entorno (producto, packages, red) | `"Requiere git, docker, jq"` |
+| `metadata` | No | Mapa key-value libre | `{author, version}` |
+
+### Estructura de Directorio Opcional
+
+```
+.agents/skills/my-skill/
+├── SKILL.md              # Requerido: metadata + instructions
+├── scripts/              # Opcional: código ejecutable (bash, python, node)
+│   └── process.sh
+├── references/           # Opcional: docs de referencia
+│   ├── FORMAT.md
+│   └── EXAMPLES.md
+└── assets/               # Opcional: templates, imágenes, data
+    └── template.txt
+```
+
+### Cómo usar
+
+1. **Crear skill**:
+   ```bash
+   mkdir -p .agents/skills/my-skill
+   touch .agents/skills/my-skill/SKILL.md
+   ```
+
+2. **Activación bajo demanda**: El agente lee solo `name` y `description` al inicio. Cuando el usuario pide algo que coincida con la descripción, el agente carga el SKILL.md completo.
+
+3. **Referencias de archivos**: Desde SKILL.md puedes referenciar recursos:
+   ```markdown
+   Run the extraction script:
+   scripts/extract.py
+
+   See FORMAT.md for details:
+   references/FORMAT.md
+   ```
+
+### Validar skills
+
+```bash
+npx skills-ref validate .agents/skills/my-skill
+```
+
+### Herramientas que leen .agents/skills/
+
+| Herramienta | Status |
+|-------------|:------:|
+| **Antigravity CLI** | **Soporte nativo** (lee directo `.agents/skills/`) |
+| **Kilo Code** | Compatibilidad (Lee `.agents/skills/` + `.kilo/skills/`) |
+| **Claude Code** | Compatibilidad (lee `.agents/skills/` + `.claude/skills/`) |
+| **Gemini CLI** | Compatibilidad |
+| **Cursor** | Compatibilidad |
+| **Windsurf** | Compatibilidad |
+
+### Ejemplo para este proyecto
+
+**Skill**: `nextjs-optimization`
+```markdown
+---
+name: nextjs-optimization
+description: "Implementación de optimizaciones de performance en Next.js 16 (Framer Motion, Core Web Vitals, SSG). Use cuando trabaje en páginas del app router."
+metadata:
+  project: henrytaby-web
+  tags: nextjs, performance, framer-motion, ssg
+---
+
+# Next.js Performance Optimization
+
+## Checklist SSG
+
+- Verificar `generateStaticParams` para todas las páginas dinámicas (`[slug]`)
+- Incluir `<title>` y `<meta>` tags en `<head>` de cada layout
+- Asegurar imágenes cargadas vía `next/image` con `fill` o `width`/`height`
+
+## Framer Motion
+
+- Usar `AnimatePresence` solo cuando sea necesario (no envolver todo el componente)
+- Optimizar `layoutId` para evitar re-renders innecesarios
+
+## Core Web Vitals
+
+- Cumplir CLS < 0.1 usando medidas de altura en `min-height` o `fr` en Grid/Flex
+- Cumplir LCP < 2.5s usando `loading="lazy"` en imágenes no críticas
+```
+
+### Referencias
+
+- [Especificación Agent Skills](https://agentskills.io/specification)
+- [Instalación skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)
