@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Send, CheckCircle2 } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { Button, Input, Textarea } from "@/shared/ui";
+import { submitContactForm } from "../api/actions";
 
 const contactSchema = z.object({
     name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -19,16 +20,20 @@ interface ContactFormProps {
 
 export function ContactForm({ onSubmit }: ContactFormProps) {
     const [submitted, setSubmitted] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const [formData, setFormData] = useState<ContactFormData>({
         name: "",
         email: "",
         message: "",
     });
     const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+    const [serverError, setServerError] = useState<string | null>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setServerError(null);
 
+        // 1. Client-side validation (rápida)
         const result = contactSchema.safeParse(formData);
         
         if (!result.success) {
@@ -47,9 +52,28 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
             onSubmit(formData);
         }
 
-        // Demo state - in production, integrate with Formspree, Resend, or Server Action
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 5000);
+        // 2. Ejecutar la Server Action (Validación en servidor y procesamiento real)
+        startTransition(async () => {
+            const response = await submitContactForm(formData);
+            
+            if (response.success) {
+                setSubmitted(true);
+                setFormData({ name: "", email: "", message: "" }); // Limpiar formulario
+                setTimeout(() => setSubmitted(false), 5000);
+            } else {
+                if (response.errors) {
+                    // Errores de validación del servidor
+                    const serverFieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
+                    if (response.errors.name) serverFieldErrors.name = response.errors.name[0];
+                    if (response.errors.email) serverFieldErrors.email = response.errors.email[0];
+                    if (response.errors.message) serverFieldErrors.message = response.errors.message[0];
+                    setErrors(serverFieldErrors);
+                } else if (response.message) {
+                    // Mensaje de error general del servidor
+                    setServerError(response.message);
+                }
+            }
+        });
     };
 
     const handleChange = (
@@ -60,6 +84,9 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
         // Clear error when user types
         if (errors[name as keyof ContactFormData]) {
             setErrors((prev) => ({ ...prev, [name]: undefined }));
+        }
+        if (serverError) {
+            setServerError(null);
         }
     };
 
@@ -141,8 +168,8 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
 
                 <Button
                     type="submit"
-                    disabled={submitted}
-                    className="mt-2 bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-red-600 dark:hover:bg-red-600 hover:text-white dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    disabled={submitted || isPending}
+                    className="mt-2 bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-red-600 dark:hover:bg-red-600 hover:text-white dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-70"
                     aria-live="polite"
                 >
                     {submitted ? (
@@ -155,6 +182,14 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                             />
                             <span className="sr-only"> exitosamente</span>
                         </>
+                    ) : isPending ? (
+                        <>
+                            Enviando...
+                            <Loader2
+                                className="w-5 h-5 animate-spin"
+                                aria-hidden="true"
+                            />
+                        </>
                     ) : (
                         <>
                             Enviar Mensaje Ahora{" "}
@@ -165,6 +200,15 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                         </>
                     )}
                 </Button>
+
+                {serverError && (
+                    <div
+                        className="text-sm text-red-500 font-medium"
+                        role="alert"
+                    >
+                        {serverError}
+                    </div>
+                )}
 
                 {/* Success announcement for screen readers */}
                 {submitted && (
