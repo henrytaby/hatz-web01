@@ -50,3 +50,6 @@ next-env.d.ts
 
 # Kilo workspace (local plans, no versionar)
 .kilo/
+
+*storybook.log
+storybook-static
