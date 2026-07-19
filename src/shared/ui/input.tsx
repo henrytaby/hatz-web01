@@ -5,21 +5,23 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     error?: string;
     hint?: string;
+    wrapperClassName?: string;
+    labelClassName?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-    ({ className, label, error, hint, id: propId, required, ...props }, ref) => {
+    ({ className, wrapperClassName, labelClassName, label, error, hint, id: propId, required, ...props }, ref) => {
         const generatedId = useId();
         const id = propId || generatedId;
         const hintId = `${id}-hint`;
         const errorId = `${id}-error`;
 
         return (
-            <div className="flex flex-col gap-2">
+            <div className={cn("flex flex-col gap-2", wrapperClassName)}>
                 {label && (
                     <label
                         htmlFor={id}
-                        className="text-sm font-bold uppercase tracking-wider text-zinc-500"
+                        className={cn("text-sm font-bold uppercase tracking-wider text-zinc-500", labelClassName)}
                     >
                         {label}
                         {required && (
@@ -73,21 +75,23 @@ export interface TextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> 
     label?: string;
     error?: string;
     hint?: string;
+    wrapperClassName?: string;
+    labelClassName?: string;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-    ({ className, label, error, hint, id: propId, required, ...props }, ref) => {
+    ({ className, wrapperClassName, labelClassName, label, error, hint, id: propId, required, ...props }, ref) => {
         const generatedId = useId();
         const id = propId || generatedId;
         const hintId = `${id}-hint`;
         const errorId = `${id}-error`;
 
         return (
-            <div className="flex flex-col gap-2">
+            <div className={cn("flex flex-col gap-2", wrapperClassName)}>
                 {label && (
                     <label
                         htmlFor={id}
-                        className="text-sm font-bold uppercase tracking-wider text-zinc-500"
+                        className={cn("text-sm font-bold uppercase tracking-wider text-zinc-500", labelClassName)}
                     >
                         {label}
                         {required && (

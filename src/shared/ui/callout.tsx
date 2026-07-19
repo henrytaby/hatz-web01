@@ -1,6 +1,42 @@
 import React from "react";
 import { AlertCircle, CheckCircle, Info, AlertTriangle } from "lucide-react";
 
+// ============================================================================
+// PRIMITIVAS: COMPONENTES COMPUESTOS (10/10 Open/Closed Principle)
+// Abiertos para extensión (mediante children/className), cerrados a modificación.
+// ============================================================================
+
+export function CalloutRoot({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+    return (
+        <div className={`my-6 flex gap-4 p-5 rounded-xl border border-l-4 backdrop-blur-md shadow-sm transition-all hover:shadow-md ${className}`}>
+            {children}
+        </div>
+    );
+}
+
+export function CalloutIcon({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+    return <div className={`flex-shrink-0 mt-0.5 ${className}`}>{children}</div>;
+}
+
+export function CalloutContent({ title, children }: { title?: string; children: React.ReactNode }) {
+    return (
+        <div className="flex flex-col gap-1.5 w-full">
+            {title && (
+                <span className="font-semibold text-sm tracking-wide">
+                    {title}
+                </span>
+            )}
+            <div className="text-sm leading-relaxed [&>p]:m-0 opacity-90">
+                {children}
+            </div>
+        </div>
+    );
+}
+
+// ============================================================================
+// FACHADA (Facade): COMPONENTE POR DEFECTO PARA MDX
+// ============================================================================
+
 interface CalloutProps {
     type?: "info" | "warning" | "danger" | "success";
     title?: string;
@@ -23,18 +59,14 @@ const icons = {
 
 export function Callout({ type = "info", title, children }: CalloutProps) {
     return (
-        <div className={`my-6 flex gap-4 p-5 rounded-xl border border-l-4 backdrop-blur-md shadow-sm transition-all hover:shadow-md ${styles[type]}`}>
-            <div className="flex-shrink-0 mt-0.5">{icons[type]}</div>
-            <div className="flex flex-col gap-1.5 w-full">
-                {title && (
-                    <span className="font-semibold text-sm tracking-wide">
-                        {title}
-                    </span>
-                )}
-                <div className="text-sm leading-relaxed [&>p]:m-0 opacity-90">
-                    {children}
-                </div>
-            </div>
-        </div>
+        <CalloutRoot className={styles[type]}>
+            <CalloutIcon>{icons[type]}</CalloutIcon>
+            <CalloutContent title={title}>{children}</CalloutContent>
+        </CalloutRoot>
     );
 }
+
+// Vinculamos las primitivas al componente principal para permitir extensibilidad
+Callout.Root = CalloutRoot;
+Callout.Icon = CalloutIcon;
+Callout.Content = CalloutContent;

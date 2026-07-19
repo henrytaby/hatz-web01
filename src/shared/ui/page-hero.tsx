@@ -2,15 +2,22 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { HTMLAttributes, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type AnimationVariant = "kenBurns" | "kenBurnsPan" | "static";
 
-interface PageHeroProps {
-    title: string;
+// ============================================================================
+// PRIMITIVAS: COMPONENTES COMPUESTOS (10/10 Open/Closed Principle)
+// Abiertos para extensión (podemos añadir botones, subtítulos), cerrados a modificación.
+// ============================================================================
+
+export interface PageHeroRootProps extends HTMLAttributes<HTMLDivElement> {
     backgroundImage: string;
     bgPosition?: string;
     animation?: AnimationVariant;
     animationDuration?: number;
+    children?: ReactNode;
 }
 
 const animationVariants = {
@@ -37,26 +44,29 @@ const animationVariants = {
     },
 };
 
-export function PageHero({
-    title,
+export function PageHeroRoot({
     backgroundImage,
     bgPosition = "50% 45%",
     animation = "kenBurns",
     animationDuration,
-}: PageHeroProps) {
+    className,
+    children,
+    ...props
+}: PageHeroRootProps) {
     const variant = animationVariants[animation];
     const duration = animationDuration ?? variant.duration;
 
     return (
         <div
-            className="absolute left-0 w-full -mt-8 h-47.5 flex items-end shadow-inner overflow-hidden"
+            className={cn("absolute left-0 w-full -mt-8 h-47.5 flex items-end shadow-inner overflow-hidden", className)}
             role="banner"
+            {...props}
         >
             {animation === "static" ? (
                 <div className="absolute inset-0">
                     <Image
                         src={backgroundImage}
-                        alt={title}
+                        alt="Hero Background"
                         fill
                         priority
                         className="object-cover"
@@ -83,7 +93,7 @@ export function PageHero({
                 >
                     <Image
                         src={backgroundImage}
-                        alt={title}
+                        alt="Hero Background"
                         fill
                         priority
                         className="object-cover"
@@ -114,13 +124,41 @@ export function PageHero({
             />
 
             <div className="relative z-20 w-full max-w-container mx-auto px-6 md:px-8 pb-3">
-                <h1 className="text-[2.75em] font-normal text-zinc-800 dark:text-zinc-200 tracking-tight drop-shadow-md">
-                    {title}
-                </h1>
+                {children}
             </div>
         </div>
     );
 }
+
+export function PageHeroTitle({ className, children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
+    return (
+        <h1 
+            className={cn("text-[2.75em] font-normal text-zinc-800 dark:text-zinc-200 tracking-tight drop-shadow-md", className)} 
+            {...props}
+        >
+            {children}
+        </h1>
+    );
+}
+
+// ============================================================================
+// FACHADA (Facade): COMPONENTE POR DEFECTO PARA NO ROMPER COMPATIBILIDAD
+// ============================================================================
+
+export interface PageHeroProps extends PageHeroRootProps {
+    title: string;
+}
+
+export function PageHero({ title, ...props }: PageHeroProps) {
+    return (
+        <PageHeroRoot {...props}>
+            <PageHeroTitle>{title}</PageHeroTitle>
+        </PageHeroRoot>
+    );
+}
+
+PageHero.Root = PageHeroRoot;
+PageHero.Title = PageHeroTitle;
 
 export function PageHeroSpacer() {
     return (
