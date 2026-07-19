@@ -105,6 +105,15 @@ npx tsc --noEmit
 
 # Linting
 npm run lint
+
+# Testing Unitario (Vitest)
+npm run test
+
+# Testing E2E (Playwright)
+npm run e2e
+
+# Documentación UI (Storybook)
+npm run storybook
 ```
 
 ## 📚 Documentación
