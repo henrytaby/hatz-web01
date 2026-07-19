@@ -94,7 +94,7 @@ src/
 | Sin código duplicado | ✅ Implementado | DRY aplicado con componentes shared |
 | Comentarios útiles | ✅ Implementado | JSDoc en funciones y APIs principales |
 | Formato consistente | ✅ Implementado | ESLint + Prettier configurados |
-| Sin magic numbers | ⚠️ Parcial | Algunos valores hardcodeados en CSS |
+| Sin magic numbers | ✅ Implementado | Refactorizado con variables de Tailwind |
 | Manejo de errores | ⚠️ Parcial | Falta manejo robusto en forms |
 
 ### Principios SOLID (8/10)

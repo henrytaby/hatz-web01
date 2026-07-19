@@ -23,7 +23,7 @@ export default function WorkPage() {
       <PageHeroSpacer />
 
       {/* Work Content */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 relative">
+      <div className="w-full max-w-container mx-auto px-6 md:px-8 relative">
         {/* Ambient glow */}
         <div
           className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-[100px] rounded-full opacity-20 pointer-events-none -z-10"

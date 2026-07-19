@@ -8,7 +8,7 @@ export function Footer() {
 
     return (
         <footer className="w-full bg-zinc-900 dark:bg-black text-zinc-400 pt-5 pb-5 border-t-2 border-zinc-700 mt-5 relative">
-            <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 flex flex-col md:flex-row justify-between gap-12 text-sm">
+            <div className="mx-auto w-full max-w-container px-5 md:px-8 flex flex-col md:flex-row justify-between gap-12 text-sm">
                 {/* Brand Column */}
                 <div className="flex flex-col gap-4 max-w-sm">
                     <div className="mb-0">
@@ -59,7 +59,7 @@ export function Footer() {
             </div>
 
             {/* Copyright */}
-            <div className="mx-auto w-full max-w-[1440px] px-6 md:px-5 mt-5 pt-5 border-t border-zinc-900 text-center text-zinc-600 text-xs font-medium uppercase tracking-widest">
+            <div className="mx-auto w-full max-w-container px-6 md:px-5 mt-5 pt-5 border-t border-zinc-900 text-center text-zinc-600 text-xs font-medium uppercase tracking-widest">
                 ©COPYRIGHT 2004 - {currentYear} | Henry Taby Zenteno | Desarrollador de Software | Fotógrafo
             </div>
         </footer>

@@ -16,7 +16,7 @@ export default function AboutContent() {
       <PageHeroSpacer />
 
       {/* Grid Principal Editorial */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start overflow-visible">
+      <div className="w-full max-w-container mx-auto px-6 md:px-8 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start overflow-visible">
         {/* Columna Izquierda: Biografía Narrativa */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -127,7 +127,7 @@ export default function AboutContent() {
 
       {/* Sección Final de Ancho Completo para Filosofía */}
       <section className="w-full bg-zinc-50 dark:bg-zinc-900/40 py-5 mt-5 md:mt-10">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <div className="max-w-container mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}

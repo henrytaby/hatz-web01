@@ -23,7 +23,7 @@ export default function ContactPage() {
       <PageHeroSpacer />
 
       {/* Main Content */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 mt-2 mb-20">
+      <div className="w-full max-w-container mx-auto px-6 md:px-8 mt-2 mb-20">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 w-full items-start">
           {/* Left Column: Message & Contact Info */}
           <motion.div

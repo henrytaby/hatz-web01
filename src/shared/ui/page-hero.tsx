@@ -113,7 +113,7 @@ export function PageHero({
                 aria-hidden="true"
             />
 
-            <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-8 pb-3">
+            <div className="relative z-20 w-full max-w-container mx-auto px-6 md:px-8 pb-3">
                 <h1 className="text-[2.75em] font-normal text-zinc-800 dark:text-zinc-200 tracking-tight drop-shadow-md">
                     {title}
                 </h1>

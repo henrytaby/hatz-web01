@@ -16,6 +16,16 @@
   --color-red-400: #e21d19;
   --color-red-500: #ba0d09;
   --color-red-600: #ba0d09;
+
+  --spacing-navbar: 60px;
+}
+
+@utility max-w-container {
+  max-width: 1440px;
+}
+
+@utility z-overlay {
+  z-index: 9999;
 }
 
 :root {

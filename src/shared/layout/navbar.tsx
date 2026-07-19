@@ -129,10 +129,10 @@ export function Navbar() {
     return (
         <>
             <header
-                className="sticky top-0 w-full h-[60px] z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm transition-colors flex items-center font-sans"
+                className="sticky top-0 w-full h-navbar z-50 bg-background/95 backdrop-blur-lg border-b border-border shadow-sm transition-colors flex items-center font-sans"
                 role="banner"
             >
-                <div className="mx-auto w-full max-w-[1440px] px-6 md:px-8 flex items-center justify-between">
+                <div className="mx-auto w-full max-w-container px-6 md:px-8 flex items-center justify-between">
                     <Link
                         href="/"
                         className="hover:opacity-80 transition-opacity flex items-center -ml-2"
@@ -212,12 +212,12 @@ export function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed inset-0 z-9999 bg-background md:hidden flex flex-col"
+                        className="fixed inset-0 z-overlay bg-background md:hidden flex flex-col"
                         role="dialog"
                         aria-modal="true"
                         aria-label="Navigation menu"
                     >
-                        <div className="h-[60px] flex items-center justify-between px-6 md:px-8 border-b border-border">
+                        <div className="h-navbar flex items-center justify-between px-6 md:px-8 border-b border-border">
                             <Link
                                 href="/"
                                 className="flex items-center -ml-2"

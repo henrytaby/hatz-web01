@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@theme {
+  --spacing-navbar: 60px;
+}
+@utility max-w-container {
+  max-width: 1440px;
+}
