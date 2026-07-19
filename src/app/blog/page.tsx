@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getBlogPosts } from "@/features/blog";
-import { BlogList } from "@/features/blog";
+import { getBlogPosts, BlogList } from "@/features/blog";
 import { PageHero, PageHeroSpacer } from "@/shared/ui";
 
 export default function BlogPage() {

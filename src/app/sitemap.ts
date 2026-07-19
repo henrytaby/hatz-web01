@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
-import { getBlogSlugs, getWorkSlugs } from "@/features";
+import { getBlogSlugs } from "@/features/blog";
+import { getWorkSlugs } from "@/features/work";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://henrytaby.com";
