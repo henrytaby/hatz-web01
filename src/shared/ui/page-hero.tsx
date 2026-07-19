@@ -49,7 +49,7 @@ export function PageHero({
 
     return (
         <div
-            className="absolute left-0 w-full -mt-8 h-[190px] flex items-end shadow-inner overflow-hidden"
+            className="absolute left-0 w-full -mt-8 h-47.5 flex items-end shadow-inner overflow-hidden"
             role="banner"
         >
             {animation === "static" ? (
@@ -125,7 +125,7 @@ export function PageHero({
 export function PageHeroSpacer() {
     return (
         <div
-            className="w-full h-[190px] -mt-8 mb-8 md:mb-12 pointer-events-none"
+            className="w-full h-47.5 -mt-8 mb-8 md:mb-12 pointer-events-none"
             aria-hidden="true"
         />
     );

@@ -144,7 +144,7 @@ export function Navbar() {
                             width={0}
                             height={0}
                             sizes="120px"
-                            className="h-[45px] w-auto dark:hidden"
+                            className="h-11.25 w-auto dark:hidden"
                             style={{ height: '45px', width: 'auto' }}
                             aria-hidden="true"
                         />
@@ -154,7 +154,7 @@ export function Navbar() {
                             width={0}
                             height={0}
                             sizes="120px"
-                            className="h-[45px] w-auto hidden dark:block"
+                            className="h-11.25 w-auto hidden dark:block"
                             style={{ height: '45px', width: 'auto' }}
                             aria-hidden="true"
                         />
@@ -230,7 +230,7 @@ export function Navbar() {
                                     width={0}
                                     height={0}
                                     sizes="120px"
-                                    className="h-[45px] w-auto dark:hidden"
+                                    className="h-11.25 w-auto dark:hidden"
                                     style={{ height: '45px', width: 'auto' }}
                                     aria-hidden="true"
                                 />
@@ -240,7 +240,7 @@ export function Navbar() {
                                     width={0}
                                     height={0}
                                     sizes="120px"
-                                    className="h-[45px] w-auto hidden dark:block"
+                                    className="h-11.25 w-auto hidden dark:block"
                                     style={{ height: '45px', width: 'auto' }}
                                     aria-hidden="true"
                                 />
