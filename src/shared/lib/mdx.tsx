@@ -2,7 +2,7 @@ import Image from "next/image";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ImgHTMLAttributes } from "react";
 
 const components = {
     h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
@@ -62,10 +62,10 @@ const components = {
             {...props}
         />
     ),
-    img: (props: any) => (
+    img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
         <span className="relative block w-full aspect-video my-8 overflow-hidden rounded-lg bg-muted/30 border border-border/50">
             <Image
-                src={props.src || ""}
+                src={(props.src as string) || ""}
                 alt={props.alt || "MDX Image"}
                 fill
                 className="object-cover"

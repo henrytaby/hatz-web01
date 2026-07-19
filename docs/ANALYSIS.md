@@ -215,10 +215,10 @@ src/
 | `work/page.tsx` | ~100 | Lista de proyectos | ✅ 9/10 |
 | `work/[slug]/page.tsx` | ~80 | Proyecto individual | ✅ 9/10 |
 | `contact/page.tsx` | ~50 | Formulario | ✅ 10/10 |
-| `about/page.tsx` | ~250 | Acerca de | ⚠️ 7/10 |
+| `about/page.tsx` | ~30 | Acerca de | ✅ 10/10 |
 
 **Issues detectados**:
-- `about/page.tsx` tiene mucho contenido inline (~250 líneas)
+- Ninguno (Componentizado y refactorizado)
 
 ### features/ - Capa de Features
 
