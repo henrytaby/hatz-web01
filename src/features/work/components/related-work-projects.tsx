@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ProjectEntity } from "@/entities";
 
-export function RelatedWorkProjects({ projects }: { projects: ProjectEntity[] }) {
+export function RelatedWorkProjects({ projects }: { projects: Pick<ProjectEntity, "slug" | "title" | "summary">[] }) {
   if (!projects || projects.length === 0) return null;
 
   return (

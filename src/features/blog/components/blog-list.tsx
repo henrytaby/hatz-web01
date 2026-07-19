@@ -2,7 +2,7 @@ import type { BlogPostEntity } from "@/entities";
 import { BlogCard } from "./blog-card";
 
 interface BlogListProps {
-    posts: BlogPostEntity[];
+    posts: Pick<BlogPostEntity, "slug" | "title" | "date" | "summary" | "tags">[];
     emptyMessage?: string;
 }
 

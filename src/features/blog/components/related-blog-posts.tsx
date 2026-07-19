@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { BlogPostEntity } from "@/entities";
 
-export function RelatedBlogPosts({ posts }: { posts: BlogPostEntity[] }) {
+export function RelatedBlogPosts({ posts }: { posts: Pick<BlogPostEntity, "slug" | "title" | "summary">[] }) {
   if (!posts || posts.length === 0) return null;
   
   return (

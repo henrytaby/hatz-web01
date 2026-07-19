@@ -1,46 +1,69 @@
-import React from "react";
+import React, { HTMLAttributes, forwardRef } from "react";
 import { AlertCircle, CheckCircle, Info, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // ============================================================================
-// PRIMITIVAS: COMPONENTES COMPUESTOS (10/10 Open/Closed Principle)
-// Abiertos para extensión (mediante children/className), cerrados a modificación.
+// PRIMITIVAS: COMPONENTES COMPUESTOS (10/10 Open/Closed Principle & LSP)
 // ============================================================================
 
-export function CalloutRoot({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-    return (
-        <div className={`my-6 flex gap-4 p-5 rounded-xl border border-l-4 backdrop-blur-md shadow-sm transition-all hover:shadow-md ${className}`}>
-            {children}
-        </div>
-    );
-}
-
-export function CalloutIcon({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-    return <div className={`flex-shrink-0 mt-0.5 ${className}`}>{children}</div>;
-}
-
-export function CalloutContent({ title, children }: { title?: string; children: React.ReactNode }) {
-    return (
-        <div className="flex flex-col gap-1.5 w-full">
-            {title && (
-                <span className="font-semibold text-sm tracking-wide">
-                    {title}
-                </span>
-            )}
-            <div className="text-sm leading-relaxed [&>p]:m-0 opacity-90">
+export const CalloutRoot = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+    ({ children, className, ...props }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className={cn(
+                    "my-6 flex gap-4 p-5 rounded-xl border border-l-4 backdrop-blur-md shadow-sm transition-all hover:shadow-md",
+                    className
+                )}
+                {...props}
+            >
                 {children}
             </div>
-        </div>
-    );
+        );
+    }
+);
+CalloutRoot.displayName = "CalloutRoot";
+
+export const CalloutIcon = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+    ({ children, className, ...props }, ref) => {
+        return (
+            <div ref={ref} className={cn("flex-shrink-0 mt-0.5", className)} {...props}>
+                {children}
+            </div>
+        );
+    }
+);
+CalloutIcon.displayName = "CalloutIcon";
+
+export interface CalloutContentProps extends HTMLAttributes<HTMLDivElement> {
+    title?: string;
 }
+
+export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
+    ({ title, children, className, ...props }, ref) => {
+        return (
+            <div ref={ref} className={cn("flex flex-col gap-1.5 w-full", className)} {...props}>
+                {title && (
+                    <span className="font-semibold text-sm tracking-wide">
+                        {title}
+                    </span>
+                )}
+                <div className="text-sm leading-relaxed [&>p]:m-0 opacity-90">
+                    {children}
+                </div>
+            </div>
+        );
+    }
+);
+CalloutContent.displayName = "CalloutContent";
 
 // ============================================================================
 // FACHADA (Facade): COMPONENTE POR DEFECTO PARA MDX
 // ============================================================================
 
-interface CalloutProps {
+export interface CalloutProps extends HTMLAttributes<HTMLDivElement> {
     type?: "info" | "warning" | "danger" | "success";
     title?: string;
-    children: React.ReactNode;
 }
 
 const styles = {
@@ -57,16 +80,24 @@ const icons = {
     success: <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" aria-hidden="true" />,
 };
 
-export function Callout({ type = "info", title, children }: CalloutProps) {
-    return (
-        <CalloutRoot className={styles[type]}>
-            <CalloutIcon>{icons[type]}</CalloutIcon>
-            <CalloutContent title={title}>{children}</CalloutContent>
-        </CalloutRoot>
-    );
-}
+type CalloutComponent = React.ForwardRefExoticComponent<CalloutProps & React.RefAttributes<HTMLDivElement>> & {
+    Root: typeof CalloutRoot;
+    Icon: typeof CalloutIcon;
+    Content: typeof CalloutContent;
+};
 
-// Vinculamos las primitivas al componente principal para permitir extensibilidad
+export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
+    ({ type = "info", title, className, children, ...props }, ref) => {
+        return (
+            <CalloutRoot ref={ref} className={cn(styles[type], className)} {...props}>
+                <CalloutIcon>{icons[type]}</CalloutIcon>
+                <CalloutContent title={title}>{children}</CalloutContent>
+            </CalloutRoot>
+        );
+    }
+) as CalloutComponent;
+
+Callout.displayName = "Callout";
 Callout.Root = CalloutRoot;
 Callout.Icon = CalloutIcon;
 Callout.Content = CalloutContent;

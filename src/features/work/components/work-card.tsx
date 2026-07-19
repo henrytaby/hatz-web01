@@ -4,7 +4,7 @@ import type { ProjectEntity } from "@/entities";
 import { Badge } from "@/shared/ui";
 
 interface WorkCardProps {
-    project: ProjectEntity;
+    project: Pick<ProjectEntity, "slug" | "title" | "summary" | "tags" | "githubUrl" | "liveUrl">;
 }
 
 export function WorkCard({ project }: WorkCardProps) {

@@ -3,7 +3,7 @@ import type { BlogPostEntity } from "@/entities";
 import { Badge } from "@/shared/ui";
 
 interface BlogCardProps {
-    post: BlogPostEntity;
+    post: Pick<BlogPostEntity, "slug" | "title" | "date" | "summary" | "tags">;
     showTags?: boolean;
 }
 

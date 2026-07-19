@@ -2,7 +2,7 @@ import type { ProjectEntity } from "@/entities";
 import { WorkCard } from "./work-card";
 
 interface WorkListProps {
-    projects: ProjectEntity[];
+    projects: Pick<ProjectEntity, "slug" | "title" | "summary" | "tags" | "githubUrl" | "liveUrl">[];
     emptyMessage?: string;
 }
 
