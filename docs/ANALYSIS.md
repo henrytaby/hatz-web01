@@ -195,8 +195,8 @@ src/
 | Componentes inline | 0 | ✅ 10/10 |
 | Imports desde @/features | 8 | ✅ 9/10 |
 | Tipos any | 0 | ✅ 10/10 |
-| Duplicación de código | Mínima | ✅ 9/10 |
-| **TOTAL** | - | **9.4/10** |
+| Duplicación de código | Nula | ✅ 10/10 |
+| **TOTAL** | - | **9.6/10** |
 
 ---
 

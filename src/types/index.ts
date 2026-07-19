@@ -1,3 +1,5 @@
+import type { BlogCategory, WorkCategory } from "@/entities";
+
 // Base frontmatter for all content types
 export interface BaseFrontmatter {
   title: string;
@@ -25,39 +27,11 @@ export interface WorkFrontmatter extends BaseFrontmatter {
   duration?: string;
 }
 
-// Category types
-export type BlogCategory =
-  | "frontend"
-  | "backend"
-  | "devops"
-  | "architecture"
-  | "photography"
-  | "personal";
-
-export type WorkCategory =
-  | "fullstack"
-  | "frontend"
-  | "backend"
-  | "mobile"
-  | "consulting";
-
 // Content item with slug and content
 export interface ContentItem<T extends BaseFrontmatter = BaseFrontmatter> {
   slug: string;
   frontmatter: T;
   content: string;
-}
-
-// Navigation types
-export interface NavItem {
-  path: string;
-  label: string;
-}
-
-export interface SocialLink {
-  href: string;
-  label: string;
-  icon: string;
 }
 
 // Filter and pagination types

@@ -2,7 +2,7 @@
 // Application Configuration - Henry Taby Web Platform
 // ============================================
 
-import type { NavItem, SocialLink } from "@/types";
+import type { NavItem, SocialLink } from "@/entities";
 
 // Navigation items
 export const navigationItems: NavItem[] = [
