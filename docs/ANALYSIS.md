@@ -168,7 +168,7 @@ src/
 | Meta tags | ✅ Implementado | Título, descripción dinámicos |
 | sitemap.xml | ✅ Implementado | Generado automáticamente |
 | robots.txt | ✅ Implementado | Configurado |
-| Structured data | ❌ Pendiente | JSON-LD para artículos |
+| Structured data | ✅ Implementado | JSON-LD en páginas dinámicas |
 | Open Graph | ✅ Implementado | Completo en páginas de contenido |
 | Canonical URLs | ✅ Implementado | Next.js automático |
 

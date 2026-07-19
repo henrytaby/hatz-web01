@@ -50,8 +50,24 @@ export default async function WorkProject({
 
   const relatedProjects = getRelatedWorkProjects(resolvedParams.slug, 2);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: project.title,
+    description: project.summary,
+    datePublished: project.date,
+    author: {
+      '@type': 'Person',
+      name: 'Henry Taby',
+    },
+  };
+
   return (
     <div className="max-w-3xl w-full mx-auto">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Back link */}
       <Link
         href="/work"
