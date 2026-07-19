@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 type AnimationVariant = "kenBurns" | "kenBurnsPan" | "static";
@@ -44,102 +44,110 @@ const animationVariants = {
     },
 };
 
-export function PageHeroRoot({
-    backgroundImage,
-    bgPosition = "50% 45%",
-    animation = "kenBurns",
-    animationDuration,
-    className,
-    children,
-    ...props
-}: PageHeroRootProps) {
-    const variant = animationVariants[animation];
-    const duration = animationDuration ?? variant.duration;
+export const PageHeroRoot = forwardRef<HTMLDivElement, PageHeroRootProps>(
+    ({
+        backgroundImage,
+        bgPosition = "50% 45%",
+        animation = "kenBurns",
+        animationDuration,
+        className,
+        children,
+        ...props
+    }, ref) => {
+        const variant = animationVariants[animation];
+        const duration = animationDuration ?? variant.duration;
 
-    return (
-        <div
-            className={cn("absolute left-0 w-full -mt-8 h-47.5 flex items-end shadow-inner overflow-hidden", className)}
-            role="banner"
-            {...props}
-        >
-            {animation === "static" ? (
-                <div className="absolute inset-0">
-                    <Image
-                        src={backgroundImage}
-                        alt="Hero Background"
-                        fill
-                        priority
-                        className="object-cover"
-                        style={{ objectPosition: bgPosition }}
-                        sizes="100vw"
-                    />
-                </div>
-            ) : (
-                <motion.div
-                    initial={{ transformOrigin: "center center" }}
-                    animate={variant.animate}
-                    transition={{
-                        duration,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
+        return (
+            <div
+                ref={ref}
+                className={cn("absolute left-0 w-full -mt-8 h-47.5 flex items-end shadow-inner overflow-hidden", className)}
+                role="banner"
+                {...props}
+            >
+                {animation === "static" ? (
+                    <div className="absolute inset-0">
+                        <Image
+                            src={backgroundImage}
+                            alt="Hero Background"
+                            fill
+                            priority
+                            className="object-cover"
+                            style={{ objectPosition: bgPosition }}
+                            sizes="100vw"
+                        />
+                    </div>
+                ) : (
+                    <motion.div
+                        initial={{ transformOrigin: "center center" }}
+                        animate={variant.animate}
+                        transition={{
+                            duration,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        style={{
+                            willChange: "transform, scale",
+                            backfaceVisibility: "hidden",
+                            transformStyle: "preserve-3d",
+                            perspective: "1000px",
+                        }}
+                        className="absolute inset-0"
+                    >
+                        <Image
+                            src={backgroundImage}
+                            alt="Hero Background"
+                            fill
+                            priority
+                            className="object-cover"
+                            style={{ objectPosition: bgPosition }}
+                            sizes="100vw"
+                        />
+                    </motion.div>
+                )}
+
+                <div
+                    className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
                     style={{
-                        willChange: "transform, scale",
-                        backfaceVisibility: "hidden",
-                        transformStyle: "preserve-3d",
-                        perspective: "1000px",
+                        backgroundImage:
+                            "radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)",
+                        backgroundSize: "3px 3px",
                     }}
-                    className="absolute inset-0"
-                >
-                    <Image
-                        src={backgroundImage}
-                        alt="Hero Background"
-                        fill
-                        priority
-                        className="object-cover"
-                        style={{ objectPosition: bgPosition }}
-                        sizes="100vw"
-                    />
-                </motion.div>
-            )}
+                    aria-hidden="true"
+                />
 
-            <div
-                className="absolute inset-0 z-10 opacity-[0.25] pointer-events-none"
-                style={{
-                    backgroundImage:
-                        "radial-gradient(circle, rgba(0,0,0,0.8) 1px, transparent 1.5px)",
-                    backgroundSize: "3px 3px",
-                }}
-                aria-hidden="true"
-            />
+                <div
+                    className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none"
+                    aria-hidden="true"
+                />
 
-            <div
-                className="absolute inset-0 z-10 bg-radial-[circle_at_center,transparent_40%,rgba(0,0,0,0.3)_100%] pointer-events-none"
-                aria-hidden="true"
-            />
+                <div
+                    className="absolute inset-0 bg-black/5 z-0 pointer-events-none"
+                    aria-hidden="true"
+                />
 
-            <div
-                className="absolute inset-0 bg-black/5 z-0 pointer-events-none"
-                aria-hidden="true"
-            />
-
-            <div className="relative z-20 w-full max-w-container mx-auto px-6 md:px-8 pb-3">
-                {children}
+                <div className="relative z-20 w-full max-w-container mx-auto px-6 md:px-8 pb-3">
+                    {children}
+                </div>
             </div>
-        </div>
-    );
-}
+        );
+    }
+);
+PageHeroRoot.displayName = "PageHeroRoot";
 
-export function PageHeroTitle({ className, children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
-    return (
-        <h1 
-            className={cn("text-[2.75em] font-normal text-zinc-800 dark:text-zinc-200 tracking-tight drop-shadow-md", className)} 
-            {...props}
-        >
-            {children}
-        </h1>
-    );
-}
+export const PageHeroTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
+    ({ className, children, ...props }, ref) => {
+        return (
+            <h1 
+                ref={ref}
+                className={cn("text-[2.75em] font-normal text-zinc-800 dark:text-zinc-200 tracking-tight drop-shadow-md", className)} 
+                {...props}
+            >
+                {children}
+            </h1>
+        );
+    }
+);
+PageHeroTitle.displayName = "PageHeroTitle";
 
 // ============================================================================
 // FACHADA (Facade): COMPONENTE POR DEFECTO PARA NO ROMPER COMPATIBILIDAD
@@ -149,22 +157,33 @@ export interface PageHeroProps extends PageHeroRootProps {
     title: string;
 }
 
-export function PageHero({ title, ...props }: PageHeroProps) {
-    return (
-        <PageHeroRoot {...props}>
-            <PageHeroTitle>{title}</PageHeroTitle>
-        </PageHeroRoot>
-    );
-}
+export const PageHero = Object.assign(
+    forwardRef<HTMLDivElement, PageHeroProps>(
+        ({ title, ...props }, ref) => {
+            return (
+                <PageHeroRoot ref={ref} {...props}>
+                    <PageHeroTitle>{title}</PageHeroTitle>
+                </PageHeroRoot>
+            );
+        }
+    ),
+    {
+        Root: PageHeroRoot,
+        Title: PageHeroTitle,
+    }
+);
+PageHero.displayName = "PageHero";
 
-PageHero.Root = PageHeroRoot;
-PageHero.Title = PageHeroTitle;
-
-export function PageHeroSpacer() {
-    return (
-        <div
-            className="w-full h-47.5 -mt-8 mb-8 md:mb-12 pointer-events-none"
-            aria-hidden="true"
-        />
-    );
-}
+export const PageHeroSpacer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+    ({ className, ...props }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className={cn("w-full h-47.5 -mt-8 mb-8 md:mb-12 pointer-events-none", className)}
+                aria-hidden="true"
+                {...props}
+            />
+        );
+    }
+);
+PageHeroSpacer.displayName = "PageHeroSpacer";
