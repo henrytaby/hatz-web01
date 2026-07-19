@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
@@ -60,6 +61,17 @@ const components = {
             className="bg-zinc-900 text-zinc-100 p-4 rounded-lg overflow-x-auto my-6"
             {...props}
         />
+    ),
+    img: (props: any) => (
+        <span className="relative block w-full aspect-video my-8 overflow-hidden rounded-lg bg-muted/30 border border-border/50">
+            <Image
+                src={props.src || ""}
+                alt={props.alt || "MDX Image"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 800px"
+            />
+        </span>
     ),
 } as const;
 

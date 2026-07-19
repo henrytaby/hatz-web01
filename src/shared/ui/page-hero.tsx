@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 type AnimationVariant = "kenBurns" | "kenBurnsPan" | "static";
 
@@ -52,14 +53,17 @@ export function PageHero({
             role="banner"
         >
             {animation === "static" ? (
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: `url('${backgroundImage}')`,
-                        backgroundSize: "cover",
-                        backgroundPosition: bgPosition,
-                    }}
-                />
+                <div className="absolute inset-0">
+                    <Image
+                        src={backgroundImage}
+                        alt={title}
+                        fill
+                        priority
+                        className="object-cover"
+                        style={{ objectPosition: bgPosition }}
+                        sizes="100vw"
+                    />
+                </div>
             ) : (
                 <motion.div
                     initial={{ transformOrigin: "center center" }}
@@ -74,12 +78,19 @@ export function PageHero({
                         backfaceVisibility: "hidden",
                         transformStyle: "preserve-3d",
                         perspective: "1000px",
-                        backgroundImage: `url('${backgroundImage}')`,
-                        backgroundSize: "cover",
-                        backgroundPosition: bgPosition,
                     }}
                     className="absolute inset-0"
-                />
+                >
+                    <Image
+                        src={backgroundImage}
+                        alt={title}
+                        fill
+                        priority
+                        className="object-cover"
+                        style={{ objectPosition: bgPosition }}
+                        sizes="100vw"
+                    />
+                </motion.div>
             )}
 
             <div

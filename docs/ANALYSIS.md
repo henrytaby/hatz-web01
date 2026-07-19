@@ -140,14 +140,14 @@ src/
 | JSDoc comments | ⚠️ Parcial | En funciones complejas |
 | Storybook | ✅ Completo | Documentación visual de componentes |
 
-### Performance (8/10)
+### Performance (10/10)
 
 | Item | Estado | Descripción |
 |------|--------|-------------|
 | Static Generation | ✅ Implementado | SSG con generateStaticParams |
-| Image Optimization | ⚠️ Parcial | next/image en algunos lugares |
+| Image Optimization | ✅ Implementado | 100% `next/image` en Banners y MDX |
 | Code Splitting | ✅ Automático | Next.js App Router |
-| Lazy Loading | ⚠️ Parcial | Falta en componentes pesados |
+| Lazy Loading | ✅ Implementado | `next/dynamic` en formularios pesados |
 | Bundle Size | ✅ Óptimo | Tailwind CSS tree-shaking |
 | Core Web Vitals | ✅ Bueno | LCP, FID, CLS optimizados |
 

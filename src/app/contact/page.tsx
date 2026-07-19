@@ -2,7 +2,14 @@
 
 import { motion } from "framer-motion";
 import { PageHero, PageHeroSpacer } from "@/shared/ui";
-import { ContactForm, ContactInfo } from "@/features/contact";
+import { ContactInfo } from "@/features/contact";
+import dynamic from "next/dynamic";
+
+const ContactForm = dynamic(() => import("@/features/contact").then(mod => mod.ContactForm), {
+  loading: () => (
+    <div className="w-full h-[500px] bg-card/20 border border-border rounded-2xl animate-pulse" />
+  ),
+});
 
 export default function ContactPage() {
   return (
