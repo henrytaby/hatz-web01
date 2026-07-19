@@ -40,7 +40,7 @@ This version uses Next.js 16.2.1 (App Router). It has breaking changes — APIs,
 
 - **Name**: Henry Taby Web Platform (Personal Portfolio & Technical Blog)
 - **Author**: Henry Taby
-- **Status**: Production Ready (Score: 8.7/10)
+- **Status**: Production Ready (Score: 9.0/10)
 - **Tech Stack**:
 
 | Technology | Version | Purpose |
