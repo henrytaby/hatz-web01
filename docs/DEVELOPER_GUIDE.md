@@ -12,7 +12,7 @@ Antes de escribir tu primera línea de código, asegúrate de tener instalado en
 - **Node.js** (v18.17 o superior) - El motor de nuestro entorno.
 - **NPM** (v9 o superior) - Gestor de paquetes.
 - **Git** - Para el control de versiones.
-- Tu IDE favorito (recomendamos **VS Code** o **Windsurf/Cursor** si utilizas IA).
+- Tu IDE favorito (recomendamos **VS Code** o **Antigravity IDE** si utilizas IA).
 
 ---
 
@@ -32,7 +32,7 @@ Sigue esta secuencia para tener el proyecto corriendo en tu máquina local en me
    ```
 
 3. **Instalar los motores de los Navegadores para Pruebas (Playwright):**
-   *(Nuestros flujos críticos se prueban con Playwright simulando navegadores reales).*
+   *(Nuestros flujos críticos se prueban con Playwright simulando navegadores reales. **Nota**: Este comando puede instalar dependencias del sistema operativo, por lo que es normal que te solicite permisos de administrador o `sudo`).*
    ```bash
    npx playwright install --with-deps
    ```
@@ -107,7 +107,7 @@ Sube tu rama a GitHub y abre un Pull Request (PR) describiendo claramente qué p
 
 ## 6. 🤖 Trabajando con IA (Asistentes de Código)
 
-Si utilizas asistentes de Inteligencia Artificial (Antigravity, Cursor, Windsurf, Copilot, Claude, etc.) para codificar:
+Si utilizas asistentes de Inteligencia Artificial (Antigravity IDE, Cursor, Windsurf, Copilot, etc.) para codificar:
 - Las reglas absolutas del proyecto para las IAs viven en el archivo **`AGENTS.md`** en la raíz del proyecto.
 - Si vas a instruir a un agente, simplemente pídele que lea el archivo `AGENTS.md` primero. Ese archivo contiene nuestra Biblia arquitectónica, el cual impedirá que el agente cometa errores estructurales o destruya la accesibilidad que hemos logrado.
 
