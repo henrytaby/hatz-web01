@@ -12,13 +12,12 @@
 | **Clean Code** | 8/10 | ✅ Muy Bueno |
 | **Principios SOLID** | 8/10 | ✅ Muy Bueno |
 | **Escalabilidad** | 9/10 | ✅ Excelente |
-| **Mantenibilidad** | 8/10 | ✅ Muy Bueno |
 | **Testing** | 10/10 | ✅ Excelente |
 | **Documentación** | 9/10 | ✅ Excelente |
-| **Performance** | 8/10 | ✅ Muy Bueno |
+| **Performance** | 9/10 | ✅ Excelente |
 | **Accesibilidad** | 9/10 | ✅ Excelente |
 | **SEO** | 8/10 | ✅ Muy Bueno |
-| **TOTAL** | **9.2/10** | ✅ **Excelente** |
+| **TOTAL** | **8.7/10** | ✅ **Excelente** |
 
 ---
 
@@ -140,7 +139,7 @@ src/
 | JSDoc comments | ✅ Completo | En funciones de API y utils |
 | Storybook | ✅ Completo | Documentación visual de componentes |
 
-### Performance (10/10)
+### Performance (9/10)
 
 | Item | Estado | Descripción |
 |------|--------|-------------|
@@ -331,10 +330,10 @@ src/
 | Escalabilidad | 9/10 | ⬆️ |
 | Testing | 10/10 | ⬆️ |
 | Documentación | 9/10 | ⬆️ |
-| Performance | 8/10 | ➡️ |
+| Performance | 9/10 | ⬆️ |
 | Accesibilidad | 9/10 | ⬆️ |
 | SEO | 8/10 | ➡️ |
-| **TOTAL** | **9.2/10** | ⬆️ |
+| **TOTAL** | **8.7/10** | ⬆️ |
 
 ### Logros Principales
 
@@ -353,7 +352,7 @@ src/
 
 ### Veredicto Final
 
-El proyecto tiene una **arquitectura sólida y escalable** con un score de **7.9/10**. La implementación de FSD ha mejorado significativamente la mantenibilidad y escalabilidad del código. Las mejoras de accesibilidad implementadas incluyen:
+El proyecto tiene una **arquitectura sólida y escalable** con un score general de **8.7/10**. La implementación de FSD ha mejorado significativamente la mantenibilidad y escalabilidad del código. Las mejoras de accesibilidad implementadas incluyen:
 
 - **Navbar**: ARIA labels, focus management, tab trap en menú móvil, escape key handling
 - **Formularios**: aria-required, aria-invalid, aria-describedby, screen reader hints
