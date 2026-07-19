@@ -196,7 +196,7 @@ src/
 | Imports desde @/features | Óptimos | ✅ 10/10 |
 | Tipos any | 0 | ✅ 10/10 |
 | Duplicación de código | Nula | ✅ 10/10 |
-| **TOTAL** | - | **9.6/10** |
+| **TOTAL** | - | **10/10** |
 
 ---
 
@@ -209,12 +209,12 @@ src/
 | Archivo | Líneas | Responsabilidad | Score |
 |---------|--------|-----------------|-------|
 | `layout.tsx` | ~100 | Layout raíz | ✅ 9/10 |
-| `page.tsx` | ~150 | Home | ✅ 9/10 |
-| `blog/page.tsx` | ~80 | Lista de posts | ✅ 9/10 |
-| `blog/[slug]/page.tsx` | ~50 | Post individual | ✅ 10/10 |
-| `work/page.tsx` | ~100 | Lista de proyectos | ✅ 9/10 |
-| `work/[slug]/page.tsx` | ~80 | Proyecto individual | ✅ 9/10 |
-| `contact/page.tsx` | ~50 | Formulario | ✅ 10/10 |
+| `page.tsx` | ~20 | Home | ✅ 10/10 |
+| `blog/page.tsx` | ~50 | Lista de posts | ✅ 10/10 |
+| `blog/[slug]/page.tsx` | ~90 | Post individual | ✅ 10/10 |
+| `work/page.tsx` | ~50 | Lista de proyectos | ✅ 10/10 |
+| `work/[slug]/page.tsx` | ~90 | Proyecto individual | ✅ 10/10 |
+| `contact/page.tsx` | ~60 | Formulario | ✅ 10/10 |
 | `about/page.tsx` | ~30 | Acerca de | ✅ 10/10 |
 
 **Issues detectados**:
@@ -295,25 +295,25 @@ src/
 |------|-----------|----------|---------|--------|
 | Tests unitarios (Vitest) | 🔴 Alta | Medio | Alto | ✅ Completado |
 | Validación formularios (Zod) | 🔴 Alta | Bajo | Alto | ✅ Completado |
-| ~~ARIA labels en Navbar~~ | ~~🟡 Media~~ | ~~Bajo~~ | ~~Medio~~ | ✅ Completado |
-| ~~Focus management en menú móvil~~ | ~~🟡 Media~~ | ~~Bajo~~ | ~~Medio~~ | ✅ Completado |
+| ARIA labels en Navbar | 🟡 Media | Bajo | Medio | ✅ Completado |
+| Focus management en menú móvil | 🟡 Media | Bajo | Medio | ✅ Completado |
 
 ### Mediano Plazo (1-2 meses)
 
-| Item | Prioridad | Esfuerzo | Impacto |
-|------|-----------|----------|---------|
+| Item | Prioridad | Esfuerzo | Impacto | Estado |
+|------|-----------|----------|---------|--------|
 | Storybook para UI | 🟡 Media | Medio | Alto | ✅ Completado |
-| Server Actions para ContactForm | 🔴 Alta | Medio | Alto |
-| ESLint rules para FSD boundaries | 🟡 Media | Bajo | Medio |
-| JSON-LD structured data | 🟡 Media | Bajo | Medio |
+| Server Actions para ContactForm | 🔴 Alta | Medio | Alto | ⏳ Pendiente |
+| ESLint rules para FSD boundaries | 🟡 Media | Bajo | Medio | ⏳ Pendiente |
+| JSON-LD structured data | 🟡 Media | Bajo | Medio | ✅ Completado |
 
 ### Largo Plazo (3-6 meses)
 
-| Item | Prioridad | Esfuerzo | Impacto |
-|------|-----------|----------|---------|
-| CMS Headless (Sanity) | 🟢 Baja | Alto | Alto |
-| i18n (es/en) | 🟡 Media | Alto | Alto |
-| PWA con Service Worker | 🟢 Baja | Medio | Medio |
+| Item | Prioridad | Esfuerzo | Impacto | Estado |
+|------|-----------|----------|---------|--------|
+| CMS Headless (Sanity) | 🟢 Baja | Alto | Alto | ❌ Descartado |
+| i18n (es/en) | 🟡 Media | Alto | Alto | ⏳ Pendiente |
+| PWA con Service Worker | 🟢 Baja | Medio | Medio | ❌ Descartado |
 | Tests E2E (Playwright) | 🟡 Media | Medio | Alto | ✅ Completado |
 
 ---
