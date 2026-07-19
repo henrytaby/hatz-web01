@@ -483,34 +483,25 @@ flowchart TD
     %% Capa de Aplicación
     subgraph app["app/ (Capa de Aplicación)"]
         direction LR
-        p_blog["page (blog)"]
-        p_work["page (work)"]
-        p_contact["page (contact)"]
-        p_about["page (about)"]
+        p_blog["page (blog)"] ~~~ p_work["page (work)"] ~~~ p_contact["page (contact)"] ~~~ p_about["page (about)"]
     end
 
     %% Capa de Features
     subgraph features["features/ (Capa de Features)"]
         direction LR
-        f_blog["blog/\n(api, components)"]
-        f_work["work/\n(api, components)"]
-        f_contact["contact/\n(components)"]
+        f_blog["blog/\n(api, components)"] ~~~ f_work["work/\n(api, components)"] ~~~ f_contact["contact/\n(components)"]
     end
 
     %% Capa de Entidades
     subgraph entities["entities/ (Capa de Entidades)"]
         direction LR
-        e_blog["BlogPostEntity\nNavItem"]
-        e_work["ProjectEntity\nSiteConfig"]
+        e_blog["BlogPostEntity\nNavItem"] ~~~ e_work["ProjectEntity\nSiteConfig"]
     end
 
     %% Capa Shared
     subgraph shared["shared/ (Capa Shared)"]
         direction LR
-        s_ui["ui/\n(Button, Badge)"]
-        s_layout["layout/\n(Navbar, Footer)"]
-        s_icons["icons/\n(SVG)"]
-        s_lib["lib/\n(MDX, Theme)"]
+        s_ui["ui/\n(Button, Badge)"] ~~~ s_layout["layout/\n(Navbar, Footer)"] ~~~ s_icons["icons/\n(SVG)"] ~~~ s_lib["lib/\n(MDX, Theme)"]
     end
 
     %% Relaciones Unidireccionales
