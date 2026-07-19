@@ -61,18 +61,7 @@ This version uses Next.js 16.2.1 (App Router). It has breaking changes — APIs,
 - `npx tsc --noEmit` — TypeScript type checking
 
 **Score Breakdown**:
-
-| Category | Score |
-|----------|-------|
-| Architecture | 9/10 |
-| Clean Code | 8/10 |
-| SOLID | 8/10 |
-| Scalability | 9/10 |
-| Testing | 10/10 |
-| Documentation | 9/10 |
-| Performance | 9/10 |
-| Accessibility | 9/10 |
-| SEO | 8/10 |
+The detailed project analysis, including scores across all categories (Architecture, Clean Code, Testing, etc.), is maintained in `docs/ANALYSIS.md`. AIs should reference that document to understand the project's current quality metrics and focus areas.
 
 ---
 

@@ -25,6 +25,18 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.summary || "Publicación del blog",
+    openGraph: {
+      title: post.title,
+      description: post.summary || "Publicación del blog",
+      type: "article",
+      url: `/blog/${post.slug}`,
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary || "Publicación del blog",
+    },
   };
 }
 

@@ -169,7 +169,7 @@ src/
 | sitemap.xml | ✅ Implementado | Generado automáticamente |
 | robots.txt | ✅ Implementado | Configurado |
 | Structured data | ❌ Pendiente | JSON-LD para artículos |
-| Open Graph | ⚠️ Parcial | Falta en páginas de contenido |
+| Open Graph | ✅ Implementado | Completo en páginas de contenido |
 | Canonical URLs | ✅ Implementado | Next.js automático |
 
 ---

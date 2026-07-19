@@ -23,6 +23,18 @@ export async function generateMetadata({
   return {
     title: `${project.title} | Work`,
     description: project.summary,
+    openGraph: {
+      title: `${project.title} | Work`,
+      description: project.summary || "Proyecto de portafolio",
+      type: "article",
+      url: `/work/${project.slug}`,
+      publishedTime: project.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Work`,
+      description: project.summary || "Proyecto de portafolio",
+    },
   };
 }
 
