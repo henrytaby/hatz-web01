@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar, Footer } from "@/shared/layout";
 import { ThemeProvider } from "@/shared/lib";
+import NextTopLoader from "nextjs-toploader";
 
 const poppins = Poppins({
   variable: "--font-sans",
@@ -68,6 +69,18 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
+          <NextTopLoader
+            color="#dc2626"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #dc2626,0 0 5px #dc2626"
+            zIndex={1600}
+          />
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1 w-full max-w-[1440px] mx-auto px-6 md:px-8 pt-5 pb-5">

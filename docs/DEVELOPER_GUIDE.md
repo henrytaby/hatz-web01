@@ -113,4 +113,12 @@ Si utilizas asistentes de Inteligencia Artificial (Antigravity IDE, Cursor, Wind
 
 ---
 
+## 7. ⚡ Comportamientos de Next.js (App Router)
+
+Al trabajar con Next.js 16 (App Router), notarás algunas optimizaciones de rendimiento integradas que podrían parecer "errores" si no estás familiarizado con ellas. Una de las más comunes es el **Client-side Router Cache**.
+
+- **Animaciones de Carga (`loading.tsx`)**: Cuando navegas a una ruta (por ejemplo, `/blog`) por primera vez, verás la pantalla de carga definida en `loading.tsx`. Sin embargo, si regresas a otra página y luego vuelves a entrar a `/blog`, la navegación será **instantánea** y no verás la animación de carga. Esto **no es un bug**. Next.js guarda en caché el contenido (Server Components) de las páginas ya visitadas en la memoria del navegador para optimizar la velocidad y ahorrar peticiones de red. ¡No intentes "arreglarlo"! Es una característica de alto rendimiento muy deseada.
+
+---
+
 **¡Mucho éxito con tu primer aporte! No dudes en revisar el resto de archivos en esta carpeta `docs/` para un conocimiento aún más profundo sobre nuestra arquitectura.**

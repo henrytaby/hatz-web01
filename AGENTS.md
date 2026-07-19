@@ -17,6 +17,7 @@ This version uses Next.js 16.2.1 (App Router). It has breaking changes — APIs,
 - Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. 
 - Heed deprecation notices. 
 - ALWAYS use Server Components by default. Only use `"use client"` when interactivity or React hooks are strictly required.
+- **Navigation & Cache**: Next.js Client-side Router Cache is active by default. `loading.tsx` only triggers on cache misses (first visit). Do NOT attempt to "fix" missing loading animations on subsequent visits, as this is expected performance optimization.
 <!-- END:nextjs-agent-rules -->
 
 ---
