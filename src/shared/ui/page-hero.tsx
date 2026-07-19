@@ -157,22 +157,21 @@ export interface PageHeroProps extends PageHeroRootProps {
     title: string;
 }
 
-export const PageHero = Object.assign(
-    forwardRef<HTMLDivElement, PageHeroProps>(
-        ({ title, ...props }, ref) => {
-            return (
-                <PageHeroRoot ref={ref} {...props}>
-                    <PageHeroTitle>{title}</PageHeroTitle>
-                </PageHeroRoot>
-            );
-        }
-    ),
-    {
-        Root: PageHeroRoot,
-        Title: PageHeroTitle,
+const PageHeroComponent = forwardRef<HTMLDivElement, PageHeroProps>(
+    ({ title, ...props }, ref) => {
+        return (
+            <PageHeroRoot ref={ref} {...props}>
+                <PageHeroTitle>{title}</PageHeroTitle>
+            </PageHeroRoot>
+        );
     }
 );
-PageHero.displayName = "PageHero";
+PageHeroComponent.displayName = "PageHero";
+
+export const PageHero = Object.assign(PageHeroComponent, {
+    Root: PageHeroRoot,
+    Title: PageHeroTitle,
+});
 
 export const PageHeroSpacer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     ({ className, ...props }, ref) => {

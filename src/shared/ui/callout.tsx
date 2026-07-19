@@ -27,7 +27,7 @@ CalloutRoot.displayName = "CalloutRoot";
 export const CalloutIcon = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     ({ children, className, ...props }, ref) => {
         return (
-            <div ref={ref} className={cn("flex-shrink-0 mt-0.5", className)} {...props}>
+            <div ref={ref} className={cn("shrink-0 mt-0.5", className)} {...props}>
                 {children}
             </div>
         );
