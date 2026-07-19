@@ -11,3 +11,5 @@ export { Input, Textarea } from "./input";
 export type { InputProps, TextareaProps } from "./input";
 
 export { PageHero, PageHeroSpacer } from "./page-hero";
+export { Mermaid } from "./mermaid";
+export { Callout } from "./callout";

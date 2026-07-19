@@ -1,25 +1,28 @@
 import Image from "next/image";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkGfm from "remark-gfm";
 import type { HTMLAttributes, ImgHTMLAttributes } from "react";
+import { Mermaid, Callout } from "@/shared/ui";
 
 const components = {
     h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
         <h1
-            className="text-3xl md:text-4xl font-extrabold tracking-tight mt-12 mb-6"
+            className="text-3xl md:text-4xl font-extrabold tracking-tight mt-12 mb-6 group relative"
             {...props}
         />
     ),
     h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
         <h2
-            className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6"
+            className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6 group relative"
             {...props}
         />
     ),
     h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
         <h3
-            className="text-xl md:text-2xl font-semibold tracking-tight mt-10 mb-4"
+            className="text-xl md:text-2xl font-semibold tracking-tight mt-10 mb-4 group relative"
             {...props}
         />
     ),
@@ -63,7 +66,7 @@ const components = {
         />
     ),
     img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
-        <span className="relative block w-full aspect-video my-8 overflow-hidden rounded-lg bg-muted/30 border border-border/50">
+        <span className="relative block w-full aspect-video my-8 overflow-hidden rounded-xl bg-muted/20 border border-border/50 shadow-sm backdrop-blur-sm">
             <Image
                 src={(props.src as string) || ""}
                 alt={props.alt || "MDX Image"}
@@ -73,6 +76,34 @@ const components = {
             />
         </span>
     ),
+    table: (props: HTMLAttributes<HTMLTableElement>) => (
+        <div className="my-8 w-full overflow-x-auto rounded-xl border border-border/50 shadow-sm">
+            <table className="w-full text-left border-collapse text-sm" {...props} />
+        </div>
+    ),
+    thead: (props: HTMLAttributes<HTMLTableSectionElement>) => (
+        <thead className="bg-muted/50 text-muted-foreground uppercase text-xs font-semibold tracking-wider border-b border-border/50" {...props} />
+    ),
+    tbody: (props: HTMLAttributes<HTMLTableSectionElement>) => (
+        <tbody className="divide-y divide-border/50 bg-background/50" {...props} />
+    ),
+    tr: (props: HTMLAttributes<HTMLTableRowElement>) => (
+        <tr className="hover:bg-muted/30 transition-colors" {...props} />
+    ),
+    th: (props: HTMLAttributes<HTMLTableCellElement>) => (
+        <th className="px-6 py-4 font-semibold" {...props} />
+    ),
+    td: (props: HTMLAttributes<HTMLTableCellElement>) => (
+        <td className="px-6 py-4" {...props} />
+    ),
+    input: (props: HTMLAttributes<HTMLInputElement>) => (
+        <input
+            className="mt-1 mr-2 w-4 h-4 rounded border-border/50 bg-background/50 text-primary focus:ring-primary/50 accent-primary"
+            {...props}
+        />
+    ),
+    Mermaid,
+    Callout,
 } as const;
 
 interface CustomMDXProps {
@@ -88,6 +119,16 @@ export async function CustomMDX({ source }: CustomMDXProps) {
             mdxOptions: {
                 remarkPlugins: [remarkGfm],
                 rehypePlugins: [
+                    rehypeSlug,
+                    [
+                        rehypeAutolinkHeadings,
+                        {
+                            behavior: "wrap",
+                            properties: {
+                                className: ["anchor-link no-underline hover:opacity-80 transition-opacity"],
+                            },
+                        },
+                    ],
                     [
                         rehypePrettyCode,
                         {

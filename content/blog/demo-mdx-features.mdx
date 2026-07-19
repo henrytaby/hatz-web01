@@ -1,0 +1,72 @@
+---
+title: "Explorando el nuevo Motor MDX: Las 5 Funcionalidades Principales"
+date: "2026-07-19"
+summary: "Una demostración interactiva de las nuevas capacidades de nuestro ecosistema MDX. Desde diagramas Mermaid dinámicos hasta imágenes optimizadas."
+tags: ["mdx", "architecture", "nextjs"]
+category: "architecture"
+---
+
+Bienvenidos a este artículo de demostración. Nuestro motor MDX cuenta con características de nivel **Enterprise** que se renderizan a nivel de servidor (RSC). A continuación, te presento las 5 funcionalidades avanzadas implementadas, además de nuestras hermosas alertas `<Callout />`.
+
+<Callout type="info" title="Nota sobre Callouts">
+  Por cierto, este componente `Callout` acaba de ser rediseñado para usar **glassmorphism** y es totalmente compatible con el Dark y Light Mode de forma automática. ¡Se ve genial!
+</Callout>
+
+## 1. Diagramas Interactivos con `<Mermaid />`
+
+Podemos escribir diagramas que se renderizan automáticamente y **responden al tema** (claro/oscuro) del sitio web usando Mermaid.js.
+
+<Mermaid chart="graph TD;&#10;  Usuario((Usuario)) --> |Visita /blog| A[Next.js App Router];&#10;  A -->|Ruta estática| B{Cache SSG};&#10;  B -- Hit --> C[HTML Rápido];&#10;  style Usuario fill:#2563eb,stroke:#1d4ed8,color:#fff;" />
+
+**Explicación:** Este diagrama carga de manera asíncrona ("lazy-loaded") para no bloquear la carga inicial. Si cambias el tema en la barra de navegación entre claro y oscuro, el diagrama interceptará el cambio y se redibujará con los colores apropiados al instante.
+
+## 2. Optimización Automática de Imágenes (`next/image`)
+
+Si utilizamos la sintaxis estándar de Markdown para imágenes, nuestro sistema la intercepta y utiliza `<Image />` de Next.js.
+
+![Arquitectura de Aplicaciones Web](/images/blog/mdx_demo_architecture.jpg)
+
+**Explicación:** Esta imagen no usa una etiqueta `<img>` tradicional. Por debajo, se ha convertido al formato webp/avif, evita saltos visuales en la página (layout shifts) gracias a su contenedor `aspect-video` y se carga de manera diferida (lazy-loading).
+
+## 3. Syntax Highlighting de Nivel Servidor (`rehype-pretty-code`)
+
+Podemos mostrar código con un resaltado de sintaxis hermoso utilizando **Shiki** en tiempo de compilación.
+
+```typescript
+// pages/api/hello.ts
+export default function handler(req, res) {
+  const message: string = "¡Hola Mundo MDX!";
+  console.log(message);
+  res.status(200).json({ name: 'Henry Taby' });
+}
+```
+
+**Explicación:** Este resaltado de colores no requiere cargar pesados scripts de JavaScript en el navegador de tus usuarios; el HTML y las clases CSS ya vienen procesados directamente desde el servidor (Server Components), obteniendo una puntuación perfecta de rendimiento.
+
+## 4. Enlaces Automáticos y Tabla de Contenidos
+
+Si pasas el cursor o haces clic sobre el título de cualquier sección (por ejemplo, el de esta misma sección 4), verás que es un **enlace clickeable**.
+
+**Explicación:** Usando `rehype-slug` inyectamos IDs automáticos en todos los `<h2>` o `<h3>`, y con `rehype-autolink-headings` los hacemos clickeables. Esto es ideal para compartir una sección exacta con otra persona copiando la URL generada en tu navegador (nota cómo el link termina en `#4-enlaces-automáticos-y-tabla-de-contenidos`).
+
+## 5. Markdown Súper-cargado (`remark-gfm`)
+
+Soportamos **GitHub Flavored Markdown** de forma nativa para elementos complejos que no existen en el Markdown tradicional original.
+
+**Tabla Avanzada:**
+
+| Funcionalidad | Motor Interno | Renderizado |
+| ------------- | ------------- | ----------- |
+| Sintaxis Code | Shiki         | Servidor    |
+| Diagramas     | Mermaid.js    | Cliente     |
+| Slugs & IDs   | Rehype        | Servidor    |
+
+**Lista de Tareas (Checklists):**
+- [x] Implementar Callouts con Tailwind v4.
+- [x] Integrar Mermaid interactivo y responsivo.
+- [ ] Finalizar el portafolio completo.
+
+**Otros elementos especiales:**
+También soportamos ~~texto tachado~~ y URLs que se detectan solas como https://github.com sin necesidad de tener que envolverlas en corchetes manualmente.
+
+**Explicación:** `remark-gfm` amplía enormemente lo que puedes hacer al escribir un artículo en `.mdx`, permitiendo crear documentación técnica muy estructurada con un esfuerzo mínimo de escritura.
