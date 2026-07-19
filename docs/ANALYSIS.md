@@ -191,7 +191,7 @@ src/
 
 | Métrica | Valor | Score |
 |---------|-------|-------|
-| Líneas por archivo (promedio) | ~50 | ✅ 9/10 |
+| Líneas por archivo (promedio) | ~50 | ✅ 10/10 |
 | Componentes inline | 0 | ✅ 10/10 |
 | Imports desde @/features | Óptimos | ✅ 10/10 |
 | Tipos any | 0 | ✅ 10/10 |
