@@ -1,6 +1,6 @@
 # Análisis del Proyecto - Henry Taby Web Platform
 
-> Última actualización: 2026-03-24 (con mejoras de accesibilidad)
+> Última actualización: 2026-09-02 (Actualización de Next.js y dependencias)
 
 ---
 
@@ -33,7 +33,7 @@ El proyecto **Henry Taby Web Platform** es un portfolio personal y blog técnico
 
 | Tecnología | Versión | Propósito | Score |
 |------------|---------|-----------|-------|
-| Next.js | 16.2.1 | Framework React con App Router | ✅ 9/10 |
+| Next.js | 16.3.4 | Framework React con App Router | ✅ 9/10 |
 | TypeScript | 5.x | Tipado estático | ✅ 9/10 |
 | Tailwind CSS | 4.x | Estilos utility-first | ✅ 9/10 |
 | MDX | next-mdx-remote | Contenido estructurado | ✅ 8/10 |

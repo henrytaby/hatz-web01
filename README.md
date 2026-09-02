@@ -6,7 +6,7 @@ Este es el código fuente del portafolio personal y blog técnico de Henry Taby.
 
 | Tecnología | Versión | Propósito |
 |-----------|---------|-----------|
-| **Next.js** | 16.2.1 | Framework React con App Router |
+| **Next.js** | 16.3.4 | Framework React con App Router |
 | **TypeScript** | 5.x | Tipado estático en modo estricto |
 | **Tailwind CSS** | 4.x | Estilos utility-first |
 | **MDX** | next-mdx-remote | Contenido estructurado |

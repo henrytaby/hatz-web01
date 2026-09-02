@@ -13,7 +13,7 @@
 ## 🚨 CRITICAL FRAMEWORK RULES (Next.js)
 <!-- BEGIN:nextjs-agent-rules -->
 **This is NOT the Next.js you know.**
-This version uses Next.js 16.2.1 (App Router). It has breaking changes — APIs, conventions, and file structure may all differ from your training data. 
+This version uses Next.js 16.3.4 (App Router). It has breaking changes — APIs, conventions, and file structure may all differ from your training data. 
 - Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. 
 - Heed deprecation notices. 
 - ALWAYS use Server Components by default. Only use `"use client"` when interactivity or React hooks are strictly required.
@@ -40,12 +40,12 @@ This version uses Next.js 16.2.1 (App Router). It has breaking changes — APIs,
 
 - **Name**: Henry Taby Web Platform (Personal Portfolio & Technical Blog)
 - **Author**: Henry Taby
-- **Status**: Production Ready (Score: 9.3/10)
+- **Status**: Production Ready (Score: 10/10)
 - **Tech Stack**:
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Next.js | 16.2.1 | React Framework with App Router |
+| Next.js | 16.3.4 | React Framework with App Router |
 | React | 19.2.4 | UI library |
 | TypeScript | 5.x | Static typing (strict mode) |
 | Tailwind CSS | 4.x | Utility-first styling |
